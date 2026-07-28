@@ -111,6 +111,8 @@ npm run check        # 依次执行 validate 与 type-check
 
 ## Cloudflare Pages 站点
 
+正式地址：[design.nightcord.de5.net](https://design.nightcord.de5.net)
+
 仓库同时包含一个静态展示站：
 
 - `/`：设计原则导读；

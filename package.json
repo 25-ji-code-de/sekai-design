@@ -67,6 +67,7 @@
     "type": "git",
     "url": "git+https://github.com/25-ji-code-de/sekai-design.git"
   },
+  "homepage": "https://design.nightcord.de5.net",
   "keywords": [
     "design-system",
     "css",

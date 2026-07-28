@@ -25,6 +25,7 @@ const repo = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = resolve(repo, "dist");
 const out = resolve(repo, "site");
 const pages = resolve(repo, "pages");
+const siteOrigin = "https://design.nightcord.de5.net";
 
 function run(cmd, args) {
   const executable = process.platform === "win32" && cmd === "npm" ? "npm.cmd" : cmd;
@@ -120,7 +121,10 @@ demo = demo
   )
   .replace(
     "<title>SEKAI — 本就应该如此</title>",
-    "<title>SEKAI Design — 本就应该如此</title>\n    <meta name=\"description\" content=\"SEKAI 设计系统导读：从 nightcord 与 SEKAI Pass 抽象出的统一视觉语言。\" />\n    <meta name=\"theme-color\" content=\"#50476a\" />",
+    `<title>SEKAI Design — 本就应该如此</title>
+    <meta name="description" content="SEKAI 设计系统导读：从 nightcord 与 SEKAI Pass 抽象出的统一视觉语言。" />
+    <meta name="theme-color" content="#50476a" />
+    <link rel="canonical" href="${siteOrigin}/" />`,
   )
   .replace("<body>", `<body>\n${chrome("index")}`)
   .replace(
@@ -136,7 +140,9 @@ demo = demo
 
 await writeFile(resolve(out, "index.html"), demo);
 
-const shell = (title, active, body) => `<!doctype html>
+const shell = (title, active, body) => {
+  const canonicalPath = active === "index" ? "/" : `/${active}`;
+  return `<!doctype html>
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 <!-- SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team -->
 <html lang="zh-CN" class="world-night">
@@ -145,6 +151,7 @@ const shell = (title, active, body) => `<!doctype html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="${title} — SEKAI Design System" />
     <meta name="theme-color" content="#50476a" />
+    <link rel="canonical" href="${siteOrigin}${canonicalPath}" />
     <title>${title} · SEKAI Design</title>
     <link rel="stylesheet" href="/assets/sekai-design.css" />
     <link rel="stylesheet" href="/assets/site.css" />
@@ -170,6 +177,7 @@ ${body}
   </body>
 </html>
 `;
+};
 
 const tokensBody = await readFile(resolve(pages, "tokens.body.html"), "utf8");
 const componentsBody = await readFile(resolve(pages, "components.body.html"), "utf8");
