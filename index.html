@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team -->
+<html lang="zh-CN" class="world-night">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SEKAI 设计系统导读、令牌工具与组件示例。" />
+    <meta name="theme-color" content="#50476a" />
+    <title>SEKAI Design</title>
+    <link rel="stylesheet" href="./dist/sekai-design.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: var(--sekai-space-xl);
+      }
+      main {
+        width: min(720px, 100%);
+      }
+      h1 {
+        margin: var(--sekai-space-md) 0 var(--sekai-space-lg);
+        font-size: clamp(36px, 8vw, 64px);
+        letter-spacing: -0.04em;
+      }
+      p {
+        max-width: 52ch;
+        color: rgb(var(--sekai-fg-muted));
+        font-size: var(--sekai-text-xl);
+        line-height: 1.75;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--sekai-space-md);
+        margin-top: var(--sekai-space-2xl);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="sekai-sig">SEKAI DESIGN // LOCAL</span>
+      <h1>SEKAI Design</h1>
+      <p>
+        站点由 <code>npm run build:site</code> 构建到 <code>site/</code>。
+        本地入口保留在仓库根目录，完整导读仍可直接打开。
+      </p>
+      <nav>
+        <a class="sekai-btn sekai-btn--primary" href="./demo.html">打开导读</a>
+        <a class="sekai-btn sekai-btn--secondary" href="https://github.com/25-ji-code-de/sekai-design">GitHub</a>
+      </nav>
+    </main>
+  </body>
+</html>

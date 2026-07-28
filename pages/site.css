@@ -1,0 +1,303 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+:root {
+  color-scheme: dark;
+}
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sekai-space-lg);
+  padding: 0 clamp(16px, 4vw, 48px);
+  border-bottom: var(--sekai-hairline-divider);
+  background: rgb(var(--sekai-surface) / 0.88);
+  backdrop-filter: blur(16px);
+}
+
+.site-nav__brand {
+  color: rgb(var(--sekai-fg));
+  font-weight: var(--sekai-weight-bold);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 2vw, 24px);
+}
+
+.site-nav__links a {
+  position: relative;
+  padding: 18px 0 16px;
+  color: rgb(var(--sekai-fg-muted));
+  font-size: var(--sekai-text-sm);
+  text-decoration: none;
+  transition: color var(--sekai-dur);
+}
+
+.site-nav__links a:hover,
+.site-nav__links a[aria-current="page"] {
+  color: rgb(var(--sekai-fg));
+}
+
+.site-nav__links a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: rgb(var(--sekai-accent));
+}
+
+.site-page {
+  min-height: 100vh;
+  margin: 0;
+  background: rgb(var(--sekai-canvas));
+  color: rgb(var(--sekai-fg));
+}
+
+.site-main {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: clamp(72px, 10vw, 120px) 0 96px;
+}
+
+.site-hero {
+  max-width: 720px;
+  margin-bottom: clamp(48px, 8vw, 96px);
+}
+
+.site-hero h1 {
+  margin: var(--sekai-space-md) 0 var(--sekai-space-lg);
+  font-size: clamp(32px, 6vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.site-hero p {
+  max-width: 52ch;
+  margin: 0;
+  color: rgb(var(--sekai-fg-muted));
+  font-size: var(--sekai-text-xl);
+  line-height: 1.75;
+}
+
+.site-section {
+  margin-top: clamp(56px, 8vw, 96px);
+}
+
+.site-section__head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--sekai-space-lg);
+  margin-bottom: var(--sekai-space-2xl);
+  padding-bottom: var(--sekai-space-md);
+  border-bottom: var(--sekai-hairline-divider);
+}
+
+.site-section__head h2 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 30px);
+}
+
+.site-section__head p {
+  margin: 0;
+  color: rgb(var(--sekai-fg-muted));
+  font-size: var(--sekai-text-sm);
+}
+
+.explore {
+  padding-bottom: 16vh;
+}
+
+.explore-grid,
+.tool-grid,
+.component-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--sekai-space-lg);
+  margin-top: var(--sekai-space-2xl);
+}
+
+.explore-card,
+.tool-card {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sekai-space-sm);
+  padding: var(--sekai-space-xl);
+  border: var(--sekai-hairline);
+  border-radius: var(--sekai-radius-panel);
+  background: rgb(var(--sekai-surface-card));
+  color: rgb(var(--sekai-fg));
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+}
+
+.explore-card strong,
+.tool-card strong {
+  font-size: var(--sekai-text-xl);
+}
+
+.explore-card > span:last-child,
+.tool-card > span:last-child {
+  color: rgb(var(--sekai-fg-muted));
+  font-size: var(--sekai-text-sm);
+  line-height: 1.6;
+}
+
+.token-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sekai-space-md);
+  margin-bottom: var(--sekai-space-xl);
+}
+
+.token-toolbar .sekai-input {
+  flex: 1 1 260px;
+}
+
+.token-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--sekai-space-md);
+}
+
+.token-card {
+  overflow: hidden;
+  border: var(--sekai-hairline);
+  border-radius: var(--sekai-radius-panel);
+  background: rgb(var(--sekai-surface-card));
+}
+
+.token-card__swatch {
+  height: 80px;
+  border-bottom: var(--sekai-hairline);
+  background-color: rgb(var(--token-rgb, var(--sekai-surface)));
+}
+
+.token-card__body {
+  display: grid;
+  gap: 4px;
+  padding: var(--sekai-space-md);
+}
+
+.token-card code {
+  color: rgb(var(--sekai-fg));
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-sm);
+  overflow-wrap: anywhere;
+}
+
+.token-card__value {
+  color: rgb(var(--sekai-fg-muted));
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-micro);
+}
+
+.component-stage {
+  min-height: 180px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sekai-space-lg);
+  padding: clamp(24px, 5vw, 48px);
+  border: var(--sekai-hairline);
+  border-radius: var(--sekai-radius-panel);
+  background: rgb(var(--sekai-surface) / 0.55);
+}
+
+.component-stage--column {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.component-stage > .sekai-card,
+.component-stage > .sekai-alert,
+.component-stage > .sekai-field {
+  width: min(100%, 360px);
+}
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sekai-space-lg);
+  padding: 28px clamp(16px, 4vw, 48px);
+  border-top: var(--sekai-hairline-divider);
+  background: rgb(var(--sekai-surface));
+}
+
+.site-footer__links {
+  display: flex;
+  gap: var(--sekai-space-lg);
+}
+
+.site-footer a {
+  color: rgb(var(--sekai-fg-muted));
+  font-size: var(--sekai-text-sm);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: rgb(var(--sekai-fg));
+}
+
+.site-page .worlds {
+  position: fixed;
+  right: var(--sekai-space-lg);
+  bottom: var(--sekai-space-lg);
+  z-index: 900;
+  display: flex;
+  gap: var(--sekai-space-sm);
+  padding: var(--sekai-space-sm);
+  border: var(--sekai-hairline);
+  border-radius: var(--sekai-radius-lg);
+  background: rgb(var(--sekai-surface-raised) / 0.9);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--sekai-elev-3);
+}
+
+@media (max-width: 640px) {
+  .site-nav {
+    min-height: auto;
+    align-items: flex-start;
+    padding-top: 14px;
+    padding-bottom: 12px;
+  }
+
+  .site-nav__brand {
+    padding-top: 4px;
+  }
+
+  .site-nav__links {
+    max-width: 220px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+  }
+
+  .site-nav__links a {
+    padding: 4px 0;
+  }
+
+  .site-section__head,
+  .site-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .site-page .worlds {
+    right: 12px;
+    bottom: 12px;
+  }
+}

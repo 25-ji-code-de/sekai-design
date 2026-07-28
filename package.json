@@ -34,6 +34,9 @@
     "build": "node build.mjs && tsc -p tsconfig.build.json",
     "build:js": "node build.mjs",
     "build:types": "tsc -p tsconfig.build.json",
+    "build:site": "node scripts/build-site.mjs",
+    "dev:site": "npm run build:site && wrangler pages dev site",
+    "deploy:site": "npm run build:site && wrangler pages deploy site --project-name sekai-design --branch master",
     "type-check": "tsc --noEmit",
     "validate": "node scripts/validate-tokens.mjs",
     "check": "npm run validate && npm run type-check"
@@ -52,9 +55,10 @@
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
-    "esbuild": "^0.24.0",
+    "esbuild": "0.28.1",
     "react": "^18.3.1",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "wrangler": "4.114.0"
   },
   "engines": {
     "node": ">=18"

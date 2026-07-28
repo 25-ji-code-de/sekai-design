@@ -1,0 +1,133 @@
+      <header class="site-hero">
+        <span class="sekai-sig">COMPONENTS // LIVE SAMPLES</span>
+        <h1>组件一览</h1>
+        <p>
+          这里展示 CSS 接口的常用组合。所有样本都使用正式类名，可切换 world 查看差异。
+        </p>
+      </header>
+
+      <section class="site-section">
+        <div class="site-section__head">
+          <h2>按钮</h2>
+          <p>primary · secondary · ghost · danger</p>
+        </div>
+        <div class="component-stage">
+          <button class="sekai-btn sekai-btn--primary">主要操作</button>
+          <button class="sekai-btn sekai-btn--secondary">次要操作</button>
+          <button class="sekai-btn sekai-btn--ghost">幽灵按钮</button>
+          <button class="sekai-btn sekai-btn--danger">危险操作</button>
+        </div>
+      </section>
+
+      <section class="site-section">
+        <div class="site-section__head">
+          <h2>字段</h2>
+          <p>可编辑内容使用屏幕字体，固定值使用丝印字体</p>
+        </div>
+        <div class="component-stage">
+          <div class="sekai-field">
+            <label class="sekai-field__label" for="demo-client">Client ID</label>
+            <input class="sekai-input" id="demo-client" value="nightcord_web" />
+          </div>
+          <div class="sekai-field">
+            <label class="sekai-field__label" for="demo-fixed">固定值</label>
+            <input class="sekai-input" id="demo-fixed" value="SEKAI_01" disabled />
+          </div>
+        </div>
+      </section>
+
+      <section class="site-section">
+        <div class="site-section__head">
+          <h2>卡片</h2>
+          <p>共面卡片保留边线，不添加无依据的阴影</p>
+        </div>
+        <div class="component-stage">
+          <article class="sekai-card">
+            <div class="sekai-card__header">
+              <h3 class="sekai-card__title">标准卡片</h3>
+              <span class="sekai-badge">READ</span>
+            </div>
+            <p class="sekai-card__desc">位于当前平面，只使用发丝线表示边缘。</p>
+          </article>
+          <article class="sekai-card sekai-card--accent">
+            <div class="sekai-card__header">
+              <h3 class="sekai-card__title">强调卡片</h3>
+              <span class="sekai-led active"></span>
+            </div>
+            <p class="sekai-card__desc">强调色承担结构标记，而不是背景装饰。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="site-section">
+        <div class="site-section__head">
+          <h2>反馈</h2>
+          <p>alert · badge · status · progress</p>
+        </div>
+        <div class="component-stage component-stage--column">
+          <div class="sekai-alert sekai-alert--success">保存成功，令牌契约保持一致。</div>
+          <div class="sekai-alert sekai-alert--warning">需要重新检查该组件的物理参照。</div>
+          <div class="sekai-alert sekai-alert--error">AUTH_INVALID_GRANT — code expired</div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+            <span class="sekai-badge sekai-badge--accent">ACCENT</span>
+            <span class="sekai-badge sekai-badge--success">READY</span>
+            <span class="sekai-badge sekai-badge--signal">LIVE</span>
+            <span class="sekai-status sekai-status--working">BUILDING</span>
+          </div>
+          <div class="sekai-progress">
+            <div class="sekai-progress__track">
+              <div class="sekai-progress__fill" style="width:68%"></div>
+            </div>
+            <span class="sekai-progress__value">68%</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="site-section">
+        <div class="site-section__head">
+          <h2>身份色</h2>
+          <p>鲜明底色与同色相深字</p>
+        </div>
+        <div class="component-stage">
+          <span class="sekai-avatar sekai-avatar--lg sekai-avatar--t1">A</span>
+          <span class="sekai-avatar sekai-avatar--lg sekai-avatar--t2">B</span>
+          <span class="sekai-avatar sekai-avatar--lg sekai-avatar--t3">C</span>
+          <span class="sekai-avatar sekai-avatar--lg sekai-avatar--t4">D</span>
+          <span class="sekai-avatar sekai-avatar--lg sekai-avatar--t5">E</span>
+          <span class="sekai-avatar sekai-avatar--lg sekai-avatar--t6">F</span>
+          <span class="sekai-avatar sekai-avatar--lg sekai-avatar--t7">G</span>
+          <span class="sekai-avatar sekai-avatar--lg sekai-avatar--t8">H</span>
+        </div>
+      </section>
+
+      <section class="site-section">
+        <div class="site-section__head">
+          <h2>签名装置</h2>
+          <p>cap · rule · strip · LED</p>
+        </div>
+        <div class="component-stage component-stage--column">
+          <article class="sekai-card sekai-cap">
+            <span class="sekai-sig">SEKAI PASS // SYSTEM</span>
+            <div class="sekai-rule" data-label="EDITABLE DATA"></div>
+            <div class="sekai-strip">页边变更条使这一段无需阅读全文即可定位。</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="site-section">
+        <div class="site-section__head">
+          <h2>继续</h2>
+          <p>规范、源码与生态入口</p>
+        </div>
+        <div class="explore-grid">
+          <a class="explore-card sekai-lift" href="/">
+            <span class="sekai-sig">导读</span><strong>本就应该如此</strong><span>从音频装置开始阅读设计原则。</span>
+          </a>
+          <a class="explore-card sekai-lift" href="https://github.com/25-ji-code-de/sekai-design" rel="noopener noreferrer" target="_blank">
+            <span class="sekai-sig">源码</span><strong>GitHub</strong><span>查看 CSS、React 封装和完整规范。</span>
+          </a>
+          <a class="explore-card sekai-lift" href="https://space.bilibili.com/3546904856103196" rel="noopener noreferrer" target="_blank">
+            <span class="sekai-sig">频道</span><strong>Bilibili</strong><span>@bili_47177171806</span>
+          </a>
+        </div>
+      </section>

@@ -1,0 +1,27 @@
+      <header class="site-hero">
+        <span class="sekai-sig">TOKENS // TWO WORLDS</span>
+        <h1>令牌查询</h1>
+        <p>
+          颜色令牌来自同一份语义契约。切换 world，可以看到职责不变、环境光改变后的取值。
+        </p>
+      </header>
+
+      <section class="site-section">
+        <div class="token-toolbar">
+          <input id="token-filter" class="sekai-input" type="search" placeholder="筛选令牌，例如 accent、surface、identity" aria-label="筛选令牌" />
+          <button type="button" class="sekai-btn sekai-btn--secondary" id="copy-css">复制当前 world 的 CSS</button>
+        </div>
+        <div id="token-grid" class="token-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="site-section">
+        <div class="site-section__head">
+          <h2>使用方式</h2>
+          <p>RGB 三元组是唯一颜色格式</p>
+        </div>
+        <div class="component-stage component-stage--column">
+          <pre class="sekai-code-block"><code>color: rgb(var(--sekai-fg));
+background: rgb(var(--sekai-accent) / 0.15);
+border: 1px solid rgb(var(--sekai-line) / var(--sekai-line-a));</code></pre>
+        </div>
+      </section>

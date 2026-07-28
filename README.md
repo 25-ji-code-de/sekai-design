@@ -109,6 +109,24 @@ npm run check        # 依次执行 validate 与 type-check
 
 两个 world 声明相同的令牌名称，仅取值不同。`npm run validate` 会检查这一约束。
 
+## Cloudflare Pages 站点
+
+仓库同时包含一个静态展示站：
+
+- `/`：设计原则导读；
+- `/tokens.html`：可切换 world 的令牌查询；
+- `/components.html`：常用组件与签名装置；
+- 页面末尾提供 GitHub、Bilibili、SEKAI Docs 和 Hub 入口。
+
+```bash
+npm run build:site   # 构建到 site/
+npm run dev:site     # 使用 Wrangler 本地预览
+npm run deploy:site  # 部署到 Cloudflare Pages
+```
+
+Cloudflare Pages 使用 `npm run build:site` 作为构建命令，输出目录为 `site`。
+`wrangler.jsonc` 也声明了相同目录。
+
 ## nightcord 兼容性
 
 `css/sekai/*` 中的类名与 `sekai-renderer.js` 的输出一致。因此，nightcord 接入时
