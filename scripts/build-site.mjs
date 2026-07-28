@@ -49,6 +49,14 @@ try {
   /* map optional */
 }
 await cp(resolve(dist, "sekai-tokens.css"), resolve(out, "assets", "sekai-tokens.css"));
+try {
+  await cp(
+    resolve(dist, "sekai-tokens.css.map"),
+    resolve(out, "assets", "sekai-tokens.css.map"),
+  );
+} catch {
+  /* map optional */
+}
 
 const siteCss = await readFile(resolve(pages, "site.css"), "utf8");
 await writeFile(resolve(out, "assets", "site.css"), siteCss);
@@ -141,7 +149,7 @@ demo = demo
 await writeFile(resolve(out, "index.html"), demo);
 
 const shell = (title, active, body) => {
-  const canonicalPath = active === "index" ? "/" : `/${active}`;
+  const canonicalPath = active === "index" ? "/" : `/${active}.html`;
   return `<!doctype html>
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 <!-- SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team -->
