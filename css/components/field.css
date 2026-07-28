@@ -1,0 +1,212 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   Fields — label, input, textarea, checkbox, hint, error
+   ------------------------------------------------------------
+   The label is always the machine voice (mono, uppercase, dim);
+   the value is always the human voice (sans). That contrast is
+   what makes a SEKAI form look like an instrument rather than a
+   web form, and it is the single rule to keep when adding a new
+   control type.
+   ============================================================ */
+
+.sekai-field {
+  margin-bottom: var(--sekai-space-2xl);
+}
+
+.sekai-field__label {
+  display: block;
+  margin-bottom: var(--sekai-space-sm);
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-label);
+  letter-spacing: var(--sekai-tracking-wide);
+  text-transform: uppercase;
+  color: rgb(var(--sekai-fg-muted));
+}
+
+.sekai-input,
+.sekai-textarea {
+  display: block;
+  width: 100%;
+  padding: 14px var(--sekai-space-lg);
+  background: rgb(var(--sekai-surface-sunken));
+  border: var(--sekai-hairline);
+  border-radius: var(--sekai-radius-control);
+  color: rgb(var(--sekai-fg));
+  font-family: var(--sekai-font-sans);
+  font-size: var(--sekai-text-md);
+  line-height: var(--sekai-leading);
+  transition:
+    border-color var(--sekai-dur),
+    box-shadow var(--sekai-dur),
+    background var(--sekai-dur);
+}
+
+.sekai-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.sekai-input:focus,
+.sekai-textarea:focus {
+  outline: none;
+  border-color: rgb(var(--sekai-accent));
+  box-shadow: var(--sekai-focus-ring);
+}
+
+.sekai-input::placeholder,
+.sekai-textarea::placeholder {
+  color: rgb(var(--sekai-fg-subtle) / 0.7);
+}
+
+/* Disabled values switch to mono: a read-only field is machine data,
+   not something you are being asked to write. */
+.sekai-input:disabled,
+.sekai-textarea:disabled {
+  background: var(--sekai-tint-sunken);
+  border-color: transparent;
+  color: rgb(var(--sekai-fg-muted));
+  font-family: var(--sekai-font-mono);
+  cursor: not-allowed;
+}
+
+/* ---------- Validation ---------- */
+.sekai-input--error,
+.sekai-input[aria-invalid="true"] {
+  border-color: rgb(var(--sekai-danger));
+}
+
+.sekai-input--error:focus,
+.sekai-input[aria-invalid="true"]:focus {
+  border-color: rgb(var(--sekai-danger));
+  box-shadow: 0 0 0 2px rgb(var(--sekai-danger) / 0.15);
+}
+
+/* Live URL validation, straight from the Pass settings page. */
+.sekai-input[type="url"]:invalid:not(:placeholder-shown) {
+  border-color: rgb(var(--sekai-danger) / 0.5);
+}
+
+.sekai-input[type="url"]:valid:not(:placeholder-shown) {
+  border-color: rgb(var(--sekai-success) / 0.3);
+}
+
+/* ---------- Helper text ---------- */
+.sekai-hint {
+  display: block;
+  margin-top: var(--sekai-space-xs);
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-meta);
+  color: rgb(var(--sekai-fg-muted));
+  opacity: 0.7;
+}
+
+.sekai-error-text {
+  display: block;
+  margin-top: var(--sekai-space-sm);
+  min-height: 20px;
+  font-size: var(--sekai-text-sm);
+  font-weight: var(--sekai-weight-medium);
+  color: rgb(var(--sekai-danger));
+  opacity: 0;
+  transition: opacity var(--sekai-dur);
+}
+
+.sekai-error-text.is-visible {
+  opacity: 1;
+}
+
+/* ---------- Checkbox row ----------
+   Escapes the label's uppercase/mono treatment on purpose: consent
+   text is prose and must read as prose. */
+.sekai-check {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sekai-space-sm);
+  margin-bottom: var(--sekai-space-2xl);
+  font-family: var(--sekai-font-sans);
+  font-size: var(--sekai-text-sm);
+  line-height: var(--sekai-leading);
+  letter-spacing: normal;
+  text-transform: none;
+  color: rgb(var(--sekai-fg-muted));
+  cursor: pointer;
+}
+
+.sekai-check input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  accent-color: rgb(var(--sekai-accent));
+  cursor: pointer;
+}
+
+.sekai-check a {
+  color: rgb(var(--sekai-accent));
+}
+
+.sekai-check a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Composite rows ---------- */
+
+/* An input with a trailing action button (avatar URL + Upload). */
+.sekai-input-row {
+  display: flex;
+  gap: var(--sekai-space-sm);
+  align-items: stretch;
+}
+
+.sekai-input-row > .sekai-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.sekai-input-row > .sekai-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+  min-width: 0;
+  padding-inline: var(--sekai-space-lg);
+}
+
+@media (max-width: 768px) {
+  .sekai-input-row {
+    flex-direction: column;
+  }
+}
+
+/* A composer-style wrapper: the field IS the surface. Used by the
+   nightcord message box, where the input has no chrome of its own. */
+.sekai-input-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--sekai-space-md);
+  padding: var(--sekai-space-md) var(--sekai-space-lg);
+  background: rgb(var(--sekai-surface));
+  border-radius: var(--sekai-radius-lg);
+  overflow: visible;
+}
+
+.sekai-input-shell .sekai-input-bare {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgb(var(--sekai-fg));
+  font-family: inherit;
+  font-size: var(--sekai-text-lg);
+  line-height: var(--sekai-leading);
+  resize: none;
+  overflow-y: auto;
+  min-height: 22px;
+  max-height: 140px;
+}
+
+.sekai-input-shell .sekai-input-bare::placeholder {
+  color: rgb(var(--sekai-fg-subtle));
+}

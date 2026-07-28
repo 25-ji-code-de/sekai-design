@@ -1,0 +1,185 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   SEKAI media — images, stickers
+   Class names match sekai-renderer.js verbatim.
+   ============================================================ */
+
+/* ---------- Image ---------- */
+.sekai-image-container {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+  margin: var(--sekai-space-xs) 0;
+  border-radius: var(--sekai-radius-sm);
+  background: rgb(0 0 0 / 0.1);
+  overflow: hidden;
+}
+
+/* Reserve the large size while loading so the message doesn't jump
+   when the natural width arrives. */
+.sekai-image-container.loading {
+  max-width: 400px;
+}
+
+.sekai-image-container.loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--sekai-surface-raised)) 25%,
+    rgb(var(--sekai-surface-hover)) 50%,
+    rgb(var(--sekai-surface-raised)) 75%
+  );
+  background-size: 200% 100%;
+  animation: sekai-shimmer 1.5s infinite;
+}
+
+.sekai-image-content {
+  display: block;
+  max-width: 100%;
+  max-height: 400px;
+  transition: opacity var(--sekai-dur-slow);
+}
+
+/* The caption is hidden until hover — it's attribution, not content. */
+.sekai-image-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--sekai-space-2xs) var(--sekai-space-sm);
+  background: rgb(0 0 0 / 0.6);
+  color: #fff;
+  font-size: 0.85em;
+  transform: translateY(100%);
+  transition: transform var(--sekai-dur);
+}
+
+.sekai-image-container:hover .sekai-image-caption {
+  transform: translateY(0);
+}
+
+.sekai-image-container.sekai-image-large {
+  max-width: 400px;
+}
+
+.sekai-image-container.sekai-image-small {
+  max-width: 200px;
+}
+
+/* ---------- Image spoiler ----------
+   Unlike the text spoiler, blur IS correct here: the point is to
+   hide the subject while keeping the composition visible enough to
+   decide whether to look. Scale 1.05 stops the blur bleeding a
+   transparent edge. */
+.sekai-image-spoiler {
+  position: relative;
+  overflow: hidden;
+}
+
+.sekai-image-spoiler:not(.revealed) .sekai-image-content {
+  filter: blur(18px);
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.sekai-image-spoiler:not(.revealed)::after {
+  content: "点击显示敏感内容";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sekai-tint-scrim);
+  border-radius: inherit;
+  color: #fff;
+  font-size: var(--sekai-text-label);
+  pointer-events: none;
+}
+
+/* Override the default copy per locale without touching CSS. */
+.sekai-image-spoiler[data-reveal-label]:not(.revealed)::after {
+  content: attr(data-reveal-label);
+}
+
+.sekai-image-spoiler.revealed .sekai-image-content {
+  filter: none;
+  transform: none;
+}
+
+/* ---------- Stickers ---------- */
+.sekai-sticker {
+  vertical-align: middle;
+  transition: transform var(--sekai-dur);
+}
+
+.sekai-sticker-inline {
+  display: inline-block;
+  height: 60px;
+  width: auto;
+  margin: 0 var(--sekai-space-2xs);
+}
+
+.sekai-sticker-single {
+  display: block;
+  max-width: var(--sekai-sticker-size);
+  max-height: var(--sekai-sticker-size);
+  margin: var(--sekai-space-2xs) 0;
+  border-radius: var(--sekai-radius-sm);
+}
+
+/* 1.02, not 1.1. A sticker that leaps is a sticker that shoves the
+   line height around. */
+.sekai-sticker-single:hover {
+  transform: scale(1.02);
+}
+
+.sekai-sticker-loading {
+  display: inline-block;
+  width: var(--sekai-sticker-size);
+  height: var(--sekai-sticker-size);
+  background: rgb(var(--sekai-surface-hover));
+  vertical-align: middle;
+}
+
+.sekai-sticker-inline.sekai-sticker-loading {
+  width: 60px;
+  height: 60px;
+}
+
+.sekai-sticker-broken {
+  display: inline-block;
+  padding: 0 var(--sekai-space-xs);
+  color: rgb(var(--sekai-fg-muted));
+  font-style: italic;
+}
+
+@media screen and (max-width: 600px) {
+  .sekai-sticker-inline,
+  .sekai-sticker-inline.sekai-sticker-loading {
+    height: 48px;
+  }
+}
+
+/* ---------- Lightbox ---------- */
+.sekai-image-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--sekai-z-viewer);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.sekai-image-viewer.active {
+  display: flex;
+}
+
+.sekai-viewer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}

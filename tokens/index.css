@@ -1,0 +1,12 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* Token layer only — no component styles, no reset.
+   Import this alone if you want SEKAI's variables inside an app that
+   already has its own component CSS (this is what hub should do to
+   stop copy-pasting Pass's :root block). */
+
+@import "./primitives.css";
+@import "./contract.css";
+@import "./world-system.css";
+@import "./world-night.css";

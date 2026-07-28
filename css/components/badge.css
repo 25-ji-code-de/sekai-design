@@ -1,0 +1,102 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   Badge / Tag / Pill
+   ------------------------------------------------------------
+   Always the machine voice. A badge that reads in sentence case
+   is a chip, not a badge — use .sekai-chip for that.
+   ============================================================ */
+
+.sekai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sekai-space-2xs);
+  padding: 2px var(--sekai-space-xs);
+  border: 1px solid rgb(255 255 255 / 0.02);
+  border-radius: var(--sekai-radius-xs);
+  background: rgb(255 255 255 / 0.07);
+  color: rgb(var(--sekai-fg-muted));
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-micro);
+  letter-spacing: var(--sekai-tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex: none;
+}
+
+/* Pill form — softer, used on card headers rather than inline. */
+.sekai-badge--pill {
+  padding: 2px 9px;
+  border-radius: 10px;
+  border-color: rgb(var(--sekai-line) / var(--sekai-line-a));
+  background: rgb(255 255 255 / 0.05);
+  font-size: var(--sekai-text-meta);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Identity form — a bordered mono plate showing who you are signed
+   in as. From the Pass authorize header. */
+.sekai-badge--identity {
+  padding: var(--sekai-space-xs) var(--sekai-space-md);
+  background: rgb(var(--sekai-surface-raised));
+  border-color: rgb(var(--sekai-line) / var(--sekai-line-a));
+  border-radius: var(--sekai-radius-xs);
+  font-size: var(--sekai-text-label);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.sekai-badge--accent {
+  background: rgb(var(--sekai-accent) / 0.15);
+  border-color: rgb(var(--sekai-accent) / 0.3);
+  color: rgb(var(--sekai-accent));
+}
+
+.sekai-badge--signal {
+  background: rgb(var(--sekai-signal) / 0.15);
+  border-color: rgb(var(--sekai-signal) / 0.3);
+  color: rgb(var(--sekai-signal));
+}
+
+.sekai-badge--danger {
+  background: rgb(var(--sekai-danger) / 0.15);
+  border-color: rgb(var(--sekai-danger) / 0.3);
+  color: rgb(var(--sekai-danger));
+}
+
+.sekai-badge--success {
+  background: rgb(var(--sekai-success) / 0.15);
+  border-color: rgb(var(--sekai-success) / 0.3);
+  color: rgb(var(--sekai-success));
+}
+
+/* ---------- Chip ----------
+   Sentence case, human voice, usually removable or clickable. */
+.sekai-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sekai-space-sm);
+  max-width: 100%;
+  padding: 3px var(--sekai-space-sm);
+  border-radius: var(--sekai-radius-xs);
+  background: rgb(var(--sekai-surface-raised) / 0.4);
+  color: rgb(var(--sekai-fg-muted));
+  font-size: var(--sekai-text-sm);
+  font-weight: var(--sekai-weight-medium);
+  user-select: none;
+  transition:
+    background var(--sekai-dur) ease,
+    color var(--sekai-dur) ease,
+    border-color var(--sekai-dur) ease;
+}
+
+.sekai-chip--interactive {
+  cursor: pointer;
+}
+
+.sekai-chip--interactive:hover {
+  background: rgb(var(--sekai-surface-hover) / 0.5);
+  color: rgb(var(--sekai-fg));
+}

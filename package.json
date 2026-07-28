@@ -1,0 +1,73 @@
+{
+  "name": "@sekai/design",
+  "version": "0.1.0",
+  "description": "SEKAI Design System — the shared visual language behind nightcord and SEKAI Pass. CSS tokens and components first, React wrappers on top.",
+  "license": "Apache-2.0",
+  "author": "The 25-ji-code-de Team",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/sekai-design.js",
+  "module": "./dist/sekai-design.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/sekai-design.js",
+      "default": "./dist/sekai-design.js"
+    },
+    "./css": "./dist/sekai-design.css",
+    "./tokens": "./dist/sekai-tokens.css",
+    "./css/source": "./css/index.css",
+    "./tokens/source": "./tokens/index.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "css",
+    "tokens",
+    "react",
+    "DESIGN_SYSTEM.md"
+  ],
+  "scripts": {
+    "build": "node build.mjs && tsc -p tsconfig.build.json",
+    "build:js": "node build.mjs",
+    "build:types": "tsc -p tsconfig.build.json",
+    "type-check": "tsc --noEmit",
+    "validate": "node scripts/validate-tokens.mjs",
+    "check": "npm run validate && npm run type-check"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "esbuild": "^0.24.0",
+    "react": "^18.3.1",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/25-ji-code-de/sekai-design.git"
+  },
+  "keywords": [
+    "design-system",
+    "css",
+    "design-tokens",
+    "react",
+    "sekai"
+  ]
+}

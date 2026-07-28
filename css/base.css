@@ -1,0 +1,116 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   SEKAI Design System — Base
+   Reset, document defaults, focus, scrollbars, motion policy.
+   Assumes the token layer is already loaded.
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--sekai-font-sans);
+  font-size: var(--sekai-text-md);
+  line-height: var(--sekai-leading);
+  background-color: rgb(var(--sekai-canvas));
+  color: rgb(var(--sekai-fg));
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Keyboard focus only — pointer interaction keeps the surfaces clean.
+   Every interactive component relies on this instead of shipping its
+   own focus outline. */
+:focus-visible {
+  outline: 2px solid rgb(var(--sekai-accent));
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgb(var(--sekai-accent) / 0.35);
+  color: rgb(var(--sekai-fg));
+}
+
+/* ---------- Scrollbars ----------
+   Thin, accent-tinted, never a chrome-coloured slab. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--sekai-accent) / 0.3) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgb(var(--sekai-accent) / 0.3);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--sekai-accent) / 0.5);
+}
+
+/* ---------- Motion policy ----------
+   Every animation in this system is decorative reinforcement, never
+   the only carrier of meaning, so all of it is safe to disable. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Touch ----------
+   Coarse pointers get a 44px minimum target and lose hover styling
+   in favour of an :active press. */
+@media (hover: none) and (pointer: coarse) {
+  .sekai-btn,
+  .sekai-icon-btn,
+  .sekai-channel,
+  .sekai-roster-item {
+    min-height: 44px;
+  }
+}

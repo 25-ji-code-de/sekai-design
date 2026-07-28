@@ -1,0 +1,137 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   Alert & Status
+   ------------------------------------------------------------
+   Alerts are square-edged and strip-marked, not rounded pastel
+   boxes: a tinted field, a 3px left strip, mono text. The strip
+   is doing the work — the tint is only there so the strip has
+   something to belong to.
+   ============================================================ */
+
+.sekai-alert {
+  --sekai-alert-color: var(--sekai-fg-muted);
+  padding: var(--sekai-space-md) var(--sekai-space-lg);
+  margin-bottom: var(--sekai-space-2xl);
+  background: rgb(var(--sekai-alert-color) / 0.1);
+  border-left: 3px solid rgb(var(--sekai-alert-color));
+  color: rgb(var(--sekai-alert-color));
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-sm);
+  line-height: var(--sekai-leading);
+}
+
+.sekai-alert--error {
+  --sekai-alert-color: var(--sekai-danger);
+}
+.sekai-alert--success {
+  --sekai-alert-color: var(--sekai-success);
+}
+.sekai-alert--warning {
+  --sekai-alert-color: var(--sekai-warning);
+}
+.sekai-alert--info {
+  --sekai-alert-color: var(--sekai-info);
+}
+.sekai-alert--accent {
+  --sekai-alert-color: var(--sekai-accent);
+}
+
+/* ============================================================
+   Status pill
+   ------------------------------------------------------------
+   A wide, centred, full-width state readout. From the Pass
+   proof-of-work indicator: it occupies the space the eventual
+   result will occupy, so nothing reflows when it resolves.
+   ============================================================ */
+
+.sekai-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sekai-space-sm);
+  width: 100%;
+  padding: var(--sekai-space-md) var(--sekai-space-xl);
+  background: rgb(255 255 255 / 0.03);
+  border: var(--sekai-hairline);
+  border-radius: var(--sekai-radius-sm);
+  font-size: var(--sekai-text-md);
+  color: rgb(var(--sekai-fg-muted));
+  transition: all var(--sekai-dur) ease;
+}
+
+.sekai-status--success {
+  border-color: rgb(var(--sekai-success) / 0.5);
+  background: rgb(var(--sekai-success) / 0.05);
+  color: rgb(var(--sekai-success));
+}
+
+.sekai-status--error {
+  border-color: rgb(var(--sekai-danger) / 0.5);
+  background: rgb(var(--sekai-danger) / 0.05);
+  color: rgb(var(--sekai-danger));
+  cursor: pointer;
+}
+
+.sekai-status--working {
+  border-color: rgb(var(--sekai-accent) / 0.4);
+}
+
+/* ============================================================
+   Toast
+   ------------------------------------------------------------
+   Bottom-right, heavy glass, springs in. Full-width on phones.
+   ============================================================ */
+
+.sekai-toast {
+  position: fixed;
+  right: var(--sekai-space-2xl);
+  bottom: var(--sekai-space-2xl);
+  z-index: var(--sekai-z-toast);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sekai-space-lg);
+  min-width: 280px;
+  padding: 14px var(--sekai-space-xl);
+  border-radius: var(--sekai-radius-lg);
+  color: rgb(var(--sekai-fg));
+  animation: sekai-pop-in var(--sekai-dur-slower) var(--sekai-ease-spring);
+}
+
+.sekai-toast__content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  font-size: var(--sekai-text-md);
+  font-weight: var(--sekai-weight-medium);
+}
+
+.sekai-toast__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.sekai-toast__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sekai-space-sm);
+}
+
+@media screen and (max-width: 600px) {
+  .sekai-toast {
+    right: var(--sekai-space-md);
+    bottom: var(--sekai-space-md);
+    left: var(--sekai-space-md);
+    min-width: 0;
+    padding: var(--sekai-space-md) var(--sekai-space-lg);
+    gap: var(--sekai-space-md);
+  }
+
+  .sekai-toast__content {
+    font-size: var(--sekai-text-sm);
+  }
+}

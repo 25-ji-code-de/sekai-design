@@ -1,0 +1,94 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   Feedback — spinner, progress, skeleton, empty state
+   ============================================================ */
+
+/* ---------- Spinner ---------- */
+.sekai-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgb(255 255 255 / 0.3);
+  border-top-color: rgb(var(--sekai-accent));
+  border-radius: var(--sekai-radius-full);
+  animation: sekai-spin 1s ease-in-out infinite;
+}
+
+.sekai-spinner--sm {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-color: rgb(var(--sekai-accent) / 0.3);
+  border-top-color: rgb(var(--sekai-accent));
+  animation-duration: 0.8s;
+  animation-timing-function: linear;
+}
+
+/* ---------- Progress ---------- */
+.sekai-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sekai-progress__track {
+  flex: 1;
+  height: 4px;
+  background: rgb(255 255 255 / 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.sekai-progress__fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--sekai-accent-deep)),
+    rgb(var(--sekai-accent))
+  );
+  transition: width var(--sekai-dur-fast) ease;
+}
+
+.sekai-progress__value {
+  min-width: 36px;
+  text-align: right;
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-meta);
+  color: rgb(var(--sekai-fg-muted));
+}
+
+/* ---------- Skeleton ----------
+   An EMPTY BAY: a recessed slot, obviously shaped for the module that
+   is going to sit in it, and completely still. Same rule as the
+   oscilloscope — no signal, no invented motion. If the screen also
+   needs to say "working on it", that is a different statement with
+   its own vocabulary (LED / .sekai-status--working). */
+.sekai-skeleton {
+  background: rgb(var(--sekai-canvas) / 0.35);
+  border-radius: var(--sekai-radius-sm);
+  box-shadow: var(--sekai-elev-inset);
+}
+
+/* ---------- Empty state ---------- */
+.sekai-empty {
+  padding: var(--sekai-space-3xl) var(--sekai-space-lg);
+  text-align: center;
+  border: 1px dashed rgb(var(--sekai-line) / var(--sekai-line-a));
+  border-radius: var(--sekai-radius-panel);
+  color: rgb(var(--sekai-fg-muted));
+}
+
+.sekai-empty p {
+  margin: var(--sekai-space-xs) 0;
+}
+
+/* ---------- Inline loading text ---------- */
+.sekai-loading-text {
+  color: rgb(var(--sekai-fg-muted));
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-sm);
+}

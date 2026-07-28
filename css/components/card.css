@@ -1,0 +1,164 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   Card / Panel / Well
+   ------------------------------------------------------------
+   Three surfaces, three jobs:
+     .sekai-card   a solid panel on the canvas
+     .sekai-glass  (see signatures.css) a floating attachment
+     .sekai-well   a recessed container for lists and scopes
+   ============================================================ */
+
+.sekai-card {
+  background: rgb(var(--sekai-surface));
+  border: var(--sekai-hairline);
+  border-radius: var(--sekai-radius-panel);
+  padding: var(--sekai-space-lg) var(--sekai-space-xl);
+}
+
+.sekai-card--flush {
+  padding: 0;
+}
+
+.sekai-card--interactive {
+  cursor: pointer;
+  transition:
+    transform var(--sekai-dur) var(--sekai-ease-out),
+    border-color var(--sekai-dur) var(--sekai-ease-out),
+    background var(--sekai-dur) var(--sekai-ease-out);
+}
+
+.sekai-card--interactive:hover {
+  background: rgb(var(--sekai-surface-hover));
+  border-color: rgb(var(--sekai-line-strong) / var(--sekai-line-strong-a));
+  transform: var(--sekai-lift);
+}
+
+.sekai-card--danger {
+  border-color: rgb(var(--sekai-danger) / 0.35);
+}
+
+.sekai-card--accent {
+  border-color: rgb(var(--sekai-accent) / 0.4);
+}
+
+/* A dashed panel: something not yet filled in, or a drop target. */
+.sekai-card--draft {
+  background: var(--sekai-tint-raised);
+  border-style: dashed;
+}
+
+/* ---------- Well ----------
+   Sunken, gradient-floored, inner-shadowed. Holds rows that belong
+   to each other: OAuth scopes, key/value metadata, uri lists. */
+.sekai-well {
+  background: linear-gradient(
+    180deg,
+    rgb(var(--sekai-surface-sunken) / 0.6) 0%,
+    rgb(var(--sekai-canvas) / 0.4) 100%
+  );
+  border: var(--sekai-hairline);
+  border-radius: var(--sekai-radius-panel);
+  box-shadow: var(--sekai-elev-inset);
+  overflow: hidden;
+}
+
+.sekai-well__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sekai-space-md);
+  padding: var(--sekai-space-lg);
+  border-bottom: 1px solid rgb(255 255 255 / 0.03);
+  transition: background var(--sekai-dur);
+}
+
+.sekai-well__row:last-child {
+  border-bottom: none;
+}
+
+.sekai-well__row:hover {
+  background: var(--sekai-tint-raised);
+}
+
+/* ---------- Card header ---------- */
+.sekai-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sekai-space-md);
+  flex-wrap: wrap;
+}
+
+.sekai-card__title {
+  margin: 0;
+  font-size: var(--sekai-text-xl);
+  font-weight: var(--sekai-weight-semibold);
+  color: rgb(var(--sekai-fg));
+  /* Card titles are frequently user-supplied (OAuth app names).
+     Never let one blow out the card. */
+  overflow-wrap: anywhere;
+}
+
+.sekai-card__desc {
+  margin-top: var(--sekai-space-sm);
+  font-size: var(--sekai-text-sm);
+  color: rgb(var(--sekai-fg-muted));
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Definition grid ----------
+   Key/value metadata under a card header. Keys are machine voice. */
+.sekai-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sekai-space-2xs) var(--sekai-space-md);
+  margin-top: var(--sekai-space-md);
+  font-size: var(--sekai-text-sm);
+}
+
+.sekai-meta dt {
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-label);
+  text-transform: uppercase;
+  letter-spacing: var(--sekai-tracking-wide);
+  color: rgb(var(--sekai-fg-muted));
+  white-space: nowrap;
+}
+
+.sekai-meta dd {
+  margin: 0;
+  min-width: 0;
+  color: rgb(var(--sekai-fg));
+  overflow-wrap: anywhere;
+}
+
+.sekai-meta code {
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-label);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  .sekai-meta {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+/* ---------- Secret value ----------
+   A one-time-visible credential. `user-select: all` so the whole
+   48-character string selects in one click — losing half a client
+   secret to a sloppy drag is not an acceptable failure mode. */
+.sekai-secret {
+  display: block;
+  margin-top: var(--sekai-space-md);
+  padding: var(--sekai-space-md);
+  background: rgb(var(--sekai-surface-sunken));
+  border: var(--sekai-hairline);
+  border-radius: var(--sekai-radius-sm);
+  font-family: var(--sekai-font-mono);
+  font-size: var(--sekai-text-sm);
+  user-select: all;
+  overflow-wrap: anywhere;
+}

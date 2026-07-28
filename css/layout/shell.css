@@ -1,0 +1,160 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   App shell — sidebar + main
+   ------------------------------------------------------------
+   The nightcord chat frame, generalised into a two-pane shell.
+   The sidebar is a fixed 280px rail that becomes an off-canvas
+   drawer under 768px.
+   ============================================================ */
+
+.sekai-shell {
+  display: flex;
+  height: 100vh;
+  height: 100dvh; /* phone browsers hide their toolbar mid-scroll */
+  background: rgb(var(--sekai-canvas));
+  overflow-x: hidden;
+}
+
+.sekai-sidebar {
+  width: var(--sekai-sidebar-width);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgb(var(--sekai-surface));
+}
+
+.sekai-sidebar__header {
+  height: var(--sekai-bar-height);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sekai-space-lg);
+  border-bottom: var(--sekai-hairline-divider);
+  font-size: var(--sekai-text-md);
+  font-weight: var(--sekai-weight-semibold);
+  cursor: pointer;
+  transition: background var(--sekai-dur);
+}
+
+.sekai-sidebar__header:hover {
+  background: rgb(var(--sekai-surface-hover) / 0.5);
+}
+
+.sekai-sidebar__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sekai-space-md) var(--sekai-space-sm) 0;
+}
+
+.sekai-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgb(var(--sekai-canvas));
+  overflow-x: hidden;
+}
+
+/* ---------- Section label ----------
+   Machine voice, but at reading size rather than signature size —
+   it is a heading, not a stamp. */
+.sekai-section-label {
+  margin: var(--sekai-space-lg) 0 var(--sekai-space-2xs) var(--sekai-space-sm);
+  font-size: var(--sekai-text-label);
+  color: rgb(var(--sekai-fg-muted));
+}
+
+/* ---------- Channel ---------- */
+.sekai-channel {
+  display: flex;
+  align-items: center;
+  gap: var(--sekai-space-sm);
+  margin-bottom: var(--sekai-space-sm);
+  padding: var(--sekai-space-sm);
+  border-radius: var(--sekai-radius-sm);
+  background: rgb(var(--sekai-canvas));
+  font-size: var(--sekai-text-lg);
+  cursor: pointer;
+  transition: background var(--sekai-dur);
+}
+
+.sekai-channel:hover {
+  background: rgb(var(--sekai-surface-hover));
+}
+
+.sekai-channel.is-active {
+  background: rgb(var(--sekai-surface-hover));
+  color: rgb(var(--sekai-fg));
+}
+
+.sekai-channel__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* ---------- Roster ---------- */
+.sekai-roster-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sekai-space-xs) var(--sekai-space-sm);
+  border-radius: var(--sekai-radius-sm);
+  cursor: pointer;
+  transition: background var(--sekai-dur);
+}
+
+.sekai-roster-item:hover {
+  background: rgb(var(--sekai-canvas));
+}
+
+.sekai-roster-item__info {
+  display: flex;
+  align-items: center;
+  gap: var(--sekai-space-sm);
+  min-width: 0;
+}
+
+.sekai-roster-item.is-offline {
+  opacity: 0.6;
+}
+
+/* ---------- Off-canvas drawer ---------- */
+@media screen and (max-width: 768px) {
+  .sekai-sidebar {
+    position: fixed;
+    left: calc(-1 * var(--sekai-sidebar-width));
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    z-index: var(--sekai-z-overlay);
+    box-shadow: 2px 0 8px rgb(0 0 0 / 0.3);
+    transition: left var(--sekai-dur-slow) ease;
+  }
+
+  .sekai-sidebar.is-open {
+    left: 0;
+  }
+
+  .sekai-main {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sekai-section-label {
+    font-size: var(--sekai-text-meta);
+  }
+}
+
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .sekai-sidebar__header {
+    height: 40px;
+  }
+}

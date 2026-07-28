@@ -1,0 +1,256 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   Button
+   ------------------------------------------------------------
+   Note on width: sekai-pass styles the bare `button` element with
+   `width: 100%`, then spends four separate rules (.btn-auto,
+   .avatar-upload-btn, .app-card-actions button, and two
+   `!important`s) clawing it back. Here the default is auto and
+   full width is opt-in via --block. Same visual result on the
+   auth forms, no escape hatches.
+   ============================================================ */
+
+.sekai-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sekai-space-sm);
+  padding: 14px var(--sekai-space-lg);
+  min-width: 96px;
+  border: 1px solid transparent;
+  border-radius: var(--sekai-radius-control);
+  font-family: var(--sekai-font-sans);
+  font-size: var(--sekai-text-md);
+  font-weight: var(--sekai-control-weight);
+  letter-spacing: var(--sekai-control-tracking);
+  text-transform: var(--sekai-control-transform);
+  line-height: var(--sekai-leading-none);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background var(--sekai-dur) var(--sekai-ease-out),
+    border-color var(--sekai-dur) var(--sekai-ease-out),
+    color var(--sekai-dur) var(--sekai-ease-out),
+    transform var(--sekai-dur) var(--sekai-ease-out),
+    box-shadow var(--sekai-dur) var(--sekai-ease-out);
+}
+
+.sekai-btn:active {
+  transform: translateY(0);
+}
+
+.sekai-btn:disabled,
+.sekai-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.sekai-btn svg {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+/* ---------- Variants ---------- */
+
+/* Primary — the only solid accent fill in the system. One per view. */
+.sekai-btn--primary {
+  background: rgb(var(--sekai-accent-fill));
+  color: rgb(var(--sekai-fg-on-accent));
+}
+
+.sekai-btn--primary:hover:not(:disabled) {
+  background: rgb(var(--sekai-accent-hover));
+  transform: var(--sekai-lift);
+  box-shadow: var(--sekai-glow-accent);
+}
+
+/* Secondary — the default for everything that isn't THE action. */
+.sekai-btn--secondary {
+  background: transparent;
+  border-color: rgb(var(--sekai-line) / var(--sekai-line-a));
+  color: rgb(var(--sekai-fg-muted));
+}
+
+.sekai-btn--secondary:hover:not(:disabled) {
+  background: var(--sekai-tint-hover);
+  border-color: rgb(var(--sekai-fg-muted));
+  color: rgb(var(--sekai-fg));
+  transform: var(--sekai-lift);
+}
+
+/* Ghost — toolbar and inline actions; no chrome until touched. */
+.sekai-btn--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: rgb(var(--sekai-fg-muted));
+  min-width: 0;
+}
+
+.sekai-btn--ghost:hover:not(:disabled) {
+  background: var(--sekai-tint-hover);
+  color: rgb(var(--sekai-fg));
+}
+
+/* Danger — filled tint, not a solid red slab. */
+.sekai-btn--danger {
+  background: rgb(var(--sekai-danger) / 0.15);
+  border-color: rgb(var(--sekai-danger) / 0.4);
+  color: rgb(var(--sekai-danger));
+}
+
+.sekai-btn--danger:hover:not(:disabled) {
+  background: rgb(var(--sekai-danger) / 0.25);
+  border-color: rgb(var(--sekai-danger) / 0.8);
+}
+
+/* Danger outline — for destructive actions that are not the focus
+   of the screen (revoke, delete inside a settings row). */
+.sekai-btn--danger-outline {
+  background: transparent;
+  border-color: rgb(var(--sekai-danger) / 0.3);
+  color: rgb(var(--sekai-danger) / 0.8);
+}
+
+.sekai-btn--danger-outline:hover:not(:disabled) {
+  background: rgb(var(--sekai-danger) / 0.05);
+  border-color: rgb(var(--sekai-danger) / 0.8);
+  color: rgb(var(--sekai-danger));
+  box-shadow: 0 4px 20px rgb(var(--sekai-danger) / 0.15);
+}
+
+/* Identity — "Continue with SEKAI Pass". The one button allowed to
+   wear .sekai-sheen. Reads as a doorway, not as a CTA. */
+.sekai-btn--identity {
+  background: rgb(var(--sekai-surface-raised) / 0.6);
+  border-color: rgb(var(--sekai-accent) / 0.3);
+  color: rgb(var(--sekai-fg));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition-duration: var(--sekai-dur-slow);
+}
+
+.sekai-btn--identity:hover:not(:disabled) {
+  background: rgb(var(--sekai-accent) / 0.15);
+  border-color: rgb(var(--sekai-accent));
+  box-shadow: 0 4px 25px rgb(var(--sekai-accent) / 0.35);
+}
+
+.sekai-btn--identity svg {
+  color: rgb(var(--sekai-accent));
+  transition:
+    transform var(--sekai-dur-slow) ease,
+    color var(--sekai-dur-slow) ease,
+    filter var(--sekai-dur-slow) ease;
+}
+
+.sekai-btn--identity:hover:not(:disabled) svg {
+  transform: scale(1.1);
+  color: rgb(var(--sekai-fg));
+  filter: drop-shadow(0 0 6px rgb(255 255 255 / 0.6));
+}
+
+/* ---------- Sizes ---------- */
+.sekai-btn--sm {
+  padding: var(--sekai-space-sm) var(--sekai-space-md);
+  font-size: var(--sekai-text-sm);
+  min-width: 0;
+}
+
+.sekai-btn--lg {
+  padding: var(--sekai-space-lg);
+  font-size: var(--sekai-text-lg);
+}
+
+/* ---------- Layout modifiers ---------- */
+.sekai-btn--block {
+  display: flex;
+  width: 100%;
+}
+
+/* ============================================================
+   Icon button — round, chromeless, 32px. The composer actions,
+   the message reply affordance, the toast dismiss.
+   ============================================================ */
+
+.sekai-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: var(--sekai-radius-full);
+  color: rgb(var(--sekai-fg-muted));
+  font-size: var(--sekai-text-xl);
+  cursor: pointer;
+  transition:
+    background var(--sekai-dur),
+    color var(--sekai-dur),
+    transform var(--sekai-dur) var(--sekai-ease);
+}
+
+.sekai-icon-btn:hover {
+  background: rgb(var(--sekai-surface-hover));
+  color: rgb(var(--sekai-fg));
+}
+
+.sekai-icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Dismiss rotates rather than fading — the one playful gesture kept
+   from the nightcord update toast. */
+.sekai-icon-btn--dismiss:hover {
+  background: rgb(255 255 255 / 0.1);
+  transform: rotate(90deg);
+}
+
+.sekai-icon-btn--dismiss:active {
+  transform: rotate(90deg) scale(0.9);
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .sekai-icon-btn:active {
+    background: rgb(var(--sekai-surface-hover));
+    transform: scale(0.95);
+  }
+}
+
+/* ---------- Button groups ---------- */
+.sekai-btn-row {
+  display: flex;
+  gap: var(--sekai-space-md);
+  flex-wrap: wrap;
+}
+
+.sekai-btn-row--split {
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Two equal columns — the Approve / Deny pair on the authorize page. */
+.sekai-btn-grid {
+  display: grid;
+  gap: var(--sekai-space-md);
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .sekai-btn-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sekai-btn-row--split {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

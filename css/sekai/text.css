@@ -1,0 +1,377 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   SEKAI rich text
+   ------------------------------------------------------------
+   COMPATIBILITY CONTRACT: every class name in css/sekai/* is the
+   name nightcord's sekai-renderer.js already emits, verbatim.
+   That is deliberate — nightcord adopts this design system by
+   deleting CSS, not by touching the renderer. Do not rename
+   anything here without changing the renderer in lockstep.
+   ============================================================ */
+
+.sekai-text-node {
+  line-height: var(--sekai-leading-relaxed);
+}
+
+.sekai-text-node strong {
+  font-weight: var(--sekai-weight-bold);
+  color: rgb(var(--sekai-fg));
+}
+
+/* Emphasis leans on the accent hue rather than on italics alone —
+   at 15px on a violet field, pure italic is nearly invisible. */
+.sekai-text-node em {
+  font-style: italic;
+  color: rgb(var(--sekai-accent-hover));
+}
+
+.sekai-text-node del {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.sekai-text-node blockquote {
+  margin: 10px 0;
+  padding: var(--sekai-space-sm) var(--sekai-space-lg);
+  border-left: 4px solid rgb(var(--sekai-accent-deep));
+  border-radius: 0 var(--sekai-radius-md) var(--sekai-radius-md) 0;
+  background: rgb(var(--sekai-accent-deep) / 0.08);
+  color: rgb(var(--sekai-fg));
+  font-style: normal;
+}
+
+/* ---------- Inline code ---------- */
+.sekai-code-inline {
+  padding: 2px var(--sekai-space-xs);
+  border: 1px solid rgb(255 255 255 / 0.05);
+  border-radius: 3px;
+  background: rgb(var(--sekai-surface-raised));
+  color: rgb(var(--sekai-warning));
+  font-family: var(--sekai-font-mono);
+  font-size: 0.9em;
+}
+
+/* ---------- Code block ---------- */
+.sekai-code-block {
+  display: block;
+  margin: 10px 0;
+  padding: var(--sekai-space-md) var(--sekai-space-lg);
+  background: linear-gradient(
+    145deg,
+    rgb(var(--sekai-surface-raised) / 0.9),
+    rgb(var(--sekai-surface-sunken) / 0.95)
+  );
+  color: rgb(var(--sekai-accent-hover));
+  border: var(--sekai-hairline);
+  border-left: 3px solid rgb(var(--sekai-accent-deep) / 0.5);
+  border-radius: var(--sekai-radius-md);
+  box-shadow: var(--sekai-elev-2);
+  font-family: var(--sekai-font-mono);
+  font-size: 0.9em;
+  line-height: var(--sekai-leading-relaxed);
+  white-space: pre;
+  overflow-x: auto;
+  tab-size: 2;
+  transition: border-color var(--sekai-dur);
+}
+
+.sekai-code-block:hover {
+  border-color: rgb(var(--sekai-accent) / 0.3);
+  border-left-color: rgb(var(--sekai-accent));
+}
+
+/* Code with a filename header and a collapse toggle. */
+.sekai-code-wrapper {
+  display: block;
+  margin: var(--sekai-space-xs) 0;
+  max-width: 100%;
+  border-radius: var(--sekai-radius-sm);
+  background: rgb(var(--sekai-surface-sunken) / 0.65);
+  overflow: hidden;
+}
+
+.sekai-code-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sekai-space-sm);
+  padding: var(--sekai-space-2xs) 10px;
+  background: rgb(0 0 0 / 0.25);
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+  font-size: var(--sekai-text-label);
+  color: rgb(var(--sekai-fg-muted));
+}
+
+.sekai-code-name {
+  font-weight: var(--sekai-weight-semibold);
+  color: rgb(var(--sekai-fg) / 0.85);
+}
+
+.sekai-code-lang {
+  font-family: var(--sekai-font-mono);
+  text-transform: lowercase;
+  opacity: 0.7;
+}
+
+.sekai-code-toggle {
+  margin-left: auto;
+  padding: 1px var(--sekai-space-sm);
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 0.15);
+  border-radius: var(--sekai-radius-xs);
+  color: inherit;
+  font-size: var(--sekai-text-meta);
+  cursor: pointer;
+}
+
+.sekai-code-toggle:hover {
+  background: rgb(255 255 255 / 0.08);
+}
+
+.sekai-code-wrapper .sekai-code-block {
+  display: block;
+  margin: 0;
+  border-radius: 0;
+}
+
+.sekai-code-wrapper.collapsed .sekai-code-block {
+  max-height: 4.5em;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, #000 40%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent);
+}
+
+/* ---------- Spoiler ----------
+   A strip of interference tape, not a blur. Blur leaks the shape of
+   the text underneath; a solid diagonal-noise fill does not. Text is
+   `color: transparent` AND unselectable until revealed. */
+.sekai-spoiler {
+  padding: 0 var(--sekai-space-2xs);
+  margin: 0 2px;
+  border: 1px solid rgb(var(--sekai-accent-deep) / 0.2);
+  border-radius: var(--sekai-radius-xs);
+  background-color: rgb(var(--sekai-surface-raised));
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(var(--sekai-surface-raised)),
+    rgb(var(--sekai-surface-raised)) 6px,
+    rgb(var(--sekai-surface-hover)) 6px,
+    rgb(var(--sekai-surface-hover)) 12px
+  );
+  box-shadow: var(--sekai-elev-1);
+  color: transparent;
+  text-shadow: none;
+  font-weight: var(--sekai-weight-medium);
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--sekai-dur) var(--sekai-ease-spring);
+}
+
+.sekai-spoiler:hover {
+  border-color: rgb(var(--sekai-accent) / 0.6);
+  box-shadow:
+    0 2px 8px rgb(0 0 0 / 0.3),
+    inset 0 0 0 1px rgb(255 255 255 / 0.05);
+}
+
+.sekai-spoiler.revealed,
+.sekai-spoiler.is-revealed {
+  padding: 0 2px;
+  border-color: transparent;
+  background-color: rgb(var(--sekai-accent-deep) / 0.15);
+  background-image: none;
+  box-shadow: none;
+  color: inherit;
+  cursor: text;
+  user-select: text;
+  animation: sekai-spoiler-reveal var(--sekai-dur-slow) ease-out;
+}
+
+@keyframes sekai-spoiler-reveal {
+  0% {
+    filter: blur(4px);
+    opacity: 0.5;
+  }
+  100% {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+/* On touch there is no hover, so don't half-reveal on tap-and-hold. */
+@media (hover: none) and (pointer: coarse) {
+  .sekai-spoiler:hover {
+    border-color: rgb(var(--sekai-accent-deep) / 0.2);
+    box-shadow: var(--sekai-elev-1);
+  }
+}
+
+/* ---------- Re-covering ----------
+   A single piece of tape is one-way, and that is correct: peeled tape
+   does not re-adhere, and the irreversibility is honest about what
+   revealing costs.
+
+   But "content warning" is an abstraction, and it HAS the operation
+   "cover it again" — someone walks up behind you and the risk is back.
+   A metaphor that blocks an operation the thing really has is a cage
+   (DESIGN_SYSTEM.md §0.0), so the metaphor has to be asked a harder
+   question rather than abandoned.
+
+   The harder question: physically you would never re-stick one strip.
+   You would cover the whole surface again — shut the folder, close the
+   lid. So the operation lives one level up, on a container, and it
+   re-covers everything under it at once. Which is also the better
+   interaction: in the situation that actually calls for this, you want
+   everything hidden NOW, not to hunt each strip individually.
+
+   Put .sekai-recover on any ancestor — a message, the whole log. */
+.sekai-recover .sekai-spoiler.revealed,
+.sekai-recover .sekai-spoiler.is-revealed {
+  padding: 0 var(--sekai-space-2xs);
+  border-color: rgb(var(--sekai-accent-deep) / 0.2);
+  background-color: rgb(var(--sekai-surface-raised));
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(var(--sekai-surface-raised)),
+    rgb(var(--sekai-surface-raised)) 6px,
+    rgb(var(--sekai-surface-hover)) 6px,
+    rgb(var(--sekai-surface-hover)) 12px
+  );
+  box-shadow: var(--sekai-elev-1);
+  color: transparent;
+  cursor: pointer;
+  user-select: none;
+  animation: none;
+}
+
+.sekai-recover .sekai-image-spoiler .sekai-image-content {
+  filter: blur(18px);
+  transform: scale(1.05);
+}
+
+/* ---------- Autolinked URLs ----------
+   No underline at rest; a low-alpha bottom border instead, which
+   thickens on hover. Keeps dense chat text from turning into a
+   fence of underscores. */
+.sekai-link-inline {
+  color: rgb(var(--sekai-info));
+  text-decoration: none;
+  border-bottom: 1px solid rgb(var(--sekai-info) / 0.3);
+  transition: all var(--sekai-dur);
+}
+
+.sekai-link-inline:hover {
+  color: rgb(var(--sekai-info) / 0.85);
+  border-bottom-color: rgb(var(--sekai-info));
+  border-bottom-width: 1.5px;
+}
+
+/* ---------- Mentions ---------- */
+.sekai-mention {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--sekai-space-xs);
+  margin: 0 1px;
+  border-radius: var(--sekai-radius-xs);
+  background: rgb(var(--sekai-accent-deep) / 0.28);
+  color: rgb(var(--sekai-accent-hover));
+  font-weight: var(--sekai-weight-semibold);
+  font-size: 0.95em;
+  white-space: nowrap;
+  vertical-align: baseline;
+  cursor: pointer;
+  transition:
+    background var(--sekai-dur-fast) ease,
+    color var(--sekai-dur-fast) ease;
+}
+
+.sekai-mention:hover,
+.sekai-mention:focus {
+  background: rgb(var(--sekai-accent-deep) / 0.45);
+  color: rgb(var(--sekai-fg));
+  outline: none;
+}
+
+/* An AI participant is the one thing in a message stream that isn't
+   a person. It gets the signal colour — the same orange as a
+   recording LED — and nothing else does. */
+.sekai-mention-ai {
+  background: rgb(var(--sekai-signal) / 0.22);
+  color: rgb(var(--sekai-signal) / 0.85);
+}
+
+.sekai-mention-ai:hover,
+.sekai-mention-ai:focus {
+  background: rgb(var(--sekai-signal) / 0.4);
+  color: rgb(var(--sekai-fg));
+}
+
+.sekai-mention-all {
+  background: rgb(var(--sekai-danger) / 0.25);
+  color: rgb(var(--sekai-danger));
+  font-weight: var(--sekai-weight-bold);
+}
+
+.sekai-mention-all:hover,
+.sekai-mention-all:focus {
+  background: rgb(var(--sekai-danger) / 0.4);
+  color: rgb(var(--sekai-fg));
+}
+
+.sekai-mention-role {
+  background: rgb(var(--sekai-info) / 0.22);
+  color: rgb(var(--sekai-info));
+}
+
+/* ---------- Formatted runs ----------
+   `Format:` produces one of two spans depending only on whether the
+   author passed a colour: .sekai-colored-text if they did,
+   .sekai-format-text if they didn't (sekai-renderer.js renderFormat).
+
+   nightcord styles the first at weight 500 and never styles the
+   second at all, so it inherits 400. Same node type, two weights,
+   and the thing deciding is "did a colour happen to be supplied" —
+   the weight ends up encoding a branch instead of a meaning.
+
+   Both get 500 here. A Format run is a marked run whether or not it
+   is coloured; the colour is a separate axis on top.
+   (The other way to close this is dropping both to 400 and letting
+   colour do all the marking. That reads thinner on the violet field,
+   so it isn't the default — but it is a legitimate call.) */
+.sekai-format-text,
+.sekai-colored-text {
+  font-weight: var(--sekai-weight-medium);
+}
+
+.sekai-colored-text {
+  transition: text-shadow var(--sekai-dur);
+}
+
+.sekai-colored-text:hover {
+  filter: brightness(1.1);
+}
+
+/* Truecolor = the author's exact value, unadjusted for contrast. The
+   diamond marks it as raw so a washed-out result reads as intent. */
+.sekai-truecolor {
+  position: relative;
+  font-weight: var(--sekai-weight-semibold);
+}
+
+.sekai-truecolor::before {
+  content: "◆";
+  margin-right: 2px;
+  font-size: 0.7em;
+  opacity: 0.3;
+  vertical-align: super;
+}
+
+/* ---------- Streaming caret ----------
+   The block cursor that trails a token-by-token AI reply. */
+.sekai-streaming .sekai-text-node::after,
+.sekai-format-text.sekai-streaming::after {
+  content: "▋";
+  margin-left: 2px;
+  animation: sekai-blink 1s infinite;
+}

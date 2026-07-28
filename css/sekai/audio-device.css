@@ -1,0 +1,393 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   SEKAI audio player — the device
+   ------------------------------------------------------------
+   Walkman x DAW. Three modules butted together with no gaps:
+   a console fader, a black screen, and a column of transport
+   keys.
+
+   This is the system's one FOREIGN OBJECT. It does not use the
+   canvas ladder, it does not take the world's accent, and it does
+   not soften its corners to match. It reads as a piece of hardware
+   someone set down inside the interface — which is exactly why it
+   works in both worlds unchanged. Everything it needs lives in the
+   --sekai-device-* tokens plus --sekai-signal.
+
+   If you are tempted to "harmonise" this with the surrounding UI:
+   don't. The contrast is the design.
+   ============================================================ */
+
+.sekai-audio-player {
+  display: flex;
+  gap: 0;
+  width: fit-content;
+  min-width: 400px;
+  height: 96px;
+  margin: var(--sekai-space-md) 0;
+  background-color: rgb(var(--sekai-device-chassis));
+  border: 1px solid rgb(var(--sekai-device-line));
+  border-radius: var(--sekai-radius-sm);
+  box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+  font-family: var(--sekai-font-mono);
+  overflow: hidden;
+  user-select: none;
+}
+
+.sekai-audio-player > div {
+  border-right: 1px solid rgb(var(--sekai-device-line));
+}
+
+.sekai-audio-player > div:last-child {
+  border-right: none;
+}
+
+/* ---------- 1. Console fader ---------- */
+.sekai-console-module {
+  position: relative;
+  width: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sekai-space-sm) 0;
+  background: rgb(var(--sekai-device-panel));
+}
+
+.sekai-fader-scale {
+  position: absolute;
+  top: 13px;
+  bottom: 13px;
+  left: var(--sekai-space-sm);
+  width: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.sekai-fader-tick {
+  width: 100%;
+  height: 1px;
+  background: #444;
+}
+
+.sekai-fader-tick.major {
+  width: 200%;
+  background: #666;
+}
+
+.sekai-fader-track {
+  position: relative;
+  width: 4px;
+  height: 70px;
+  background: #111;
+  border-radius: 2px;
+}
+
+/* `top` is set by JS. Flat cap with an indent line, no bevel. */
+.sekai-fader-cap {
+  position: absolute;
+  left: 50%;
+  z-index: var(--sekai-z-raised);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 12px;
+  background: #888;
+  border-radius: 1px;
+  transform: translateX(-50%) translateY(-50%);
+  cursor: grab;
+}
+
+.sekai-fader-cap::after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  background: #222;
+}
+
+.sekai-fader-cap:active {
+  background: #ccc;
+  cursor: grabbing;
+}
+
+/* ---------- 2. Screen ---------- */
+.sekai-audio-content {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: rgb(var(--sekai-device-screen));
+}
+
+.sekai-screen-meta {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sekai-space-sm);
+  padding: 0 var(--sekai-space-sm);
+  border-bottom: 1px solid #222;
+  font-size: var(--sekai-text-micro);
+  color: rgb(var(--sekai-device-fg-dim));
+  overflow: hidden;
+}
+
+.sekai-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--sekai-space-xs);
+  flex-shrink: 0;
+}
+
+.sekai-status-text {
+  font-size: 9px;
+  letter-spacing: var(--sekai-tracking-wider);
+}
+
+.sekai-track-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sekai-space-xs);
+  overflow: hidden;
+}
+
+.sekai-track-title {
+  flex-shrink: 1;
+  font-size: var(--sekai-text-meta);
+  font-weight: var(--sekai-weight-semibold);
+  color: #eee;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Shrinks twice as fast as the title: when space runs out the artist
+   goes first. */
+.sekai-track-artist {
+  flex-shrink: 2;
+  font-size: 9px;
+  color: rgb(var(--sekai-device-fg-dim));
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sekai-track-artist::before {
+  content: "- ";
+}
+
+.sekai-viz-area {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Tape reels sit at 20% opacity behind the waveform — a mechanism
+   you notice on the second look, not the first. */
+.sekai-tape-mechanism {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.sekai-reel {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border: 4px solid #444;
+  border-radius: var(--sekai-radius-full);
+}
+
+.sekai-reel::before,
+.sekai-reel::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #444;
+}
+
+.sekai-reel::after {
+  transform: rotate(90deg);
+}
+
+.sekai-audio-player.playing .sekai-reel {
+  animation: sekai-reel-spin 4s linear infinite;
+}
+
+@keyframes sekai-reel-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* DAW-style bars: grounded at the bottom, scaled from the origin. */
+.sekai-audio-visualizer-bars {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 30px;
+}
+
+.sekai-viz-bar {
+  width: 3px;
+  height: 100%;
+  background: #333;
+  transform: scaleY(0.1);
+  transform-origin: bottom;
+  transition: transform var(--sekai-dur-instant);
+}
+
+.sekai-audio-player.playing .sekai-viz-bar {
+  background: rgb(var(--sekai-device-fg));
+}
+
+/* ---------- Scrubber ---------- */
+.sekai-tape-scrubber {
+  position: relative;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  background: #151515;
+  border-top: 1px solid #222;
+  cursor: pointer;
+  transition: height var(--sekai-dur-instant) ease;
+}
+
+/* Grows on hover so the hit target follows the eye. */
+.sekai-tape-scrubber:hover {
+  height: 18px;
+}
+
+.sekai-tape-scrubber:active {
+  cursor: grabbing;
+}
+
+.sekai-scrub-buffered {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 0;
+  height: 100%;
+  background: rgb(255 255 255 / 0.08);
+  transition:
+    width var(--sekai-dur-slow) ease,
+    opacity 0.5s ease;
+}
+
+.sekai-scrub-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 0;
+  height: 100%;
+  background: rgb(255 255 255 / 0.05);
+  border-right: 1px solid rgb(var(--sekai-signal));
+  transition: background var(--sekai-dur-instant) ease;
+}
+
+.sekai-tape-scrubber:hover .sekai-scrub-progress {
+  background: rgb(255 255 255 / 0.08);
+}
+
+/* Playhead: a triangle riding the edit line, as in an editor
+   timeline. */
+.sekai-scrub-progress::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 4px solid rgb(var(--sekai-signal));
+  transition: border-top-width var(--sekai-dur-instant) ease;
+}
+
+.sekai-tape-scrubber:hover .sekai-scrub-progress::after {
+  border-top-width: 6px;
+}
+
+.sekai-scrub-time {
+  position: absolute;
+  right: var(--sekai-space-xs);
+  z-index: 3;
+  font-size: var(--sekai-text-micro);
+  color: rgb(var(--sekai-device-fg));
+  pointer-events: none;
+}
+
+/* ---------- 3. Transport keys ---------- */
+.sekai-walkman-transport {
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sekai-space-2xs);
+  padding: var(--sekai-space-xs);
+  background: rgb(var(--sekai-device-panel));
+}
+
+.sekai-transport-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(var(--sekai-device-key));
+  border: none;
+  border-radius: 2px;
+  color: #888;
+  font-size: var(--sekai-text-label);
+  cursor: pointer;
+  transition: all var(--sekai-dur-instant);
+}
+
+.sekai-transport-btn:hover {
+  background: rgb(var(--sekai-device-key-hover));
+  color: #fff;
+}
+
+/* Latched down: the key stays lit and sunken, like a mechanical
+   transport key that clicks into place. */
+.sekai-transport-btn.active,
+.sekai-transport-btn.is-active {
+  background: rgb(var(--sekai-signal));
+  color: #000;
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.2);
+}
+
+.sekai-transport-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+@media screen and (max-width: 600px) {
+  .sekai-audio-player {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}

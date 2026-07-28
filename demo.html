@@ -1,0 +1,995 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team -->
+<html lang="zh-CN" class="world-night">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEKAI — 本就应该如此</title>
+    <link rel="stylesheet" href="./dist/sekai-design.css" />
+    <style>
+      /* ── 读物本身的排版。不是设计系统的一部分。 ────────────── */
+      body {
+        padding: 0 0 30vh;
+      }
+      .page {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 var(--sekai-space-2xl);
+      }
+      .wide {
+        max-width: 980px;
+      }
+
+      /* 开篇留白够大，让第一件东西是唯一的东西 */
+      .cover {
+        min-height: 88vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--sekai-space-3xl);
+        text-align: center;
+      }
+      .cover h1 {
+        font-size: clamp(28px, 5vw, 44px);
+        font-weight: var(--sekai-weight-bold);
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin: 0;
+      }
+      .cover .lead {
+        max-width: 34ch;
+        margin: 0;
+        font-size: var(--sekai-text-xl);
+        line-height: 1.7;
+        color: rgb(var(--sekai-fg-muted));
+      }
+
+      .chapter {
+        padding: 14vh 0 0;
+      }
+      .chapter > .page > .num {
+        display: block;
+        margin-bottom: var(--sekai-space-md);
+      }
+      .chapter h2 {
+        margin: 0 0 var(--sekai-space-lg);
+        font-size: clamp(22px, 3.2vw, 30px);
+        font-weight: var(--sekai-weight-bold);
+        letter-spacing: -0.01em;
+      }
+      .chapter p {
+        margin: 0 0 var(--sekai-space-lg);
+        font-size: var(--sekai-text-xl);
+        line-height: 1.85;
+        color: rgb(var(--sekai-fg-muted));
+      }
+      .chapter p strong,
+      .cover .lead strong {
+        color: rgb(var(--sekai-fg));
+        font-weight: var(--sekai-weight-semibold);
+      }
+
+      /* 结论。永远出现在读者已经看过例子之后。 */
+      .lands {
+        margin: var(--sekai-space-3xl) 0;
+        padding-left: var(--sekai-space-xl);
+        border-left: 3px solid rgb(var(--sekai-accent-deep));
+        font-size: var(--sekai-text-xl);
+        line-height: 1.8;
+        color: rgb(var(--sekai-fg));
+      }
+
+      .stage {
+        margin: var(--sekai-space-3xl) 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--sekai-space-3xl);
+        align-items: center;
+        justify-content: center;
+      }
+      .stage--split {
+        gap: var(--sekai-space-2xl);
+        align-items: flex-start;
+      }
+
+      .caption {
+        margin-top: var(--sekai-space-md);
+        font-family: var(--sekai-font-mono);
+        font-size: var(--sekai-text-meta);
+        letter-spacing: var(--sekai-tracking-wide);
+        text-transform: uppercase;
+        color: rgb(var(--sekai-fg-muted));
+        text-align: center;
+      }
+
+      /* 拆解注解 */
+      .parts {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-width: 360px;
+      }
+      .parts li {
+        padding: var(--sekai-space-md) 0;
+        border-bottom: var(--sekai-hairline);
+        cursor: default;
+        font-size: var(--sekai-text-md);
+        line-height: 1.6;
+        color: rgb(var(--sekai-fg-muted));
+        transition: color var(--sekai-dur);
+      }
+      .parts li:last-child {
+        border-bottom: none;
+      }
+      .parts li:hover {
+        color: rgb(var(--sekai-fg));
+      }
+      .parts b {
+        display: block;
+        font-family: var(--sekai-font-mono);
+        font-size: var(--sekai-text-micro);
+        letter-spacing: var(--sekai-tracking-wide);
+        text-transform: uppercase;
+        color: rgb(var(--sekai-accent));
+        font-weight: var(--sekai-weight-semibold);
+        margin-bottom: 2px;
+      }
+      .is-lit {
+        outline: 1px solid rgb(var(--sekai-signal));
+        outline-offset: 2px;
+      }
+
+      /* 「看错的版本」—— 让读者自己感觉到哪个在撒谎 */
+      .flip {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--sekai-space-sm);
+        margin: var(--sekai-space-lg) 0 0;
+        padding: var(--sekai-space-sm) var(--sekai-space-md);
+        border: 1px dashed rgb(var(--sekai-line) / var(--sekai-line-a));
+        border-radius: var(--sekai-radius-control);
+        background: transparent;
+        color: rgb(var(--sekai-fg-muted));
+        font-family: var(--sekai-font-mono);
+        font-size: var(--sekai-text-label);
+        letter-spacing: var(--sekai-tracking-wide);
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all var(--sekai-dur);
+      }
+      .flip:hover {
+        color: rgb(var(--sekai-fg));
+        border-color: rgb(var(--sekai-fg-muted));
+      }
+      .flip[aria-pressed="true"] {
+        border-style: solid;
+        border-color: rgb(var(--sekai-signal) / 0.6);
+        color: rgb(var(--sekai-signal));
+      }
+
+      .demo-key {
+        width: 96px;
+        height: 96px;
+        border-radius: var(--sekai-radius-md);
+        border: none;
+        border-right: 1px solid rgb(255 255 255 / 0.05);
+        background: linear-gradient(
+          180deg,
+          rgb(255 255 255 / 0.03) 0%,
+          rgb(255 255 255 / 0) 100%
+        );
+        background-color: rgb(var(--sekai-surface-card));
+        color: rgb(var(--sekai-fg-muted));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow:
+          inset 0 1px 0 rgb(255 255 255 / 0.08),
+          0 2px 4px rgb(0 0 0 / 0.2);
+        transition: all var(--sekai-dur-instant) ease-out;
+      }
+      .demo-key svg {
+        width: 26px;
+        height: 26px;
+        fill: currentColor;
+        filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.3));
+      }
+      .demo-key:active,
+      .demo-key.is-pressed {
+        background: rgb(0 0 0 / 0.15);
+        box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.2);
+        transform: translateY(1px);
+      }
+      /* 错误版本：把光照模型删掉，只留一个圆角矩形 */
+      .wrong .demo-key,
+      .wrong .demo-key.is-pressed {
+        background: rgb(var(--sekai-surface-card));
+        box-shadow: none;
+        transform: none;
+      }
+
+      /* 错误版本：给共面的卡片加阴影 */
+      .wrong-lift .sekai-card {
+        box-shadow: 0 8px 24px rgb(0 0 0 / 0.45);
+      }
+      /* 错误版本：把指路的 90deg 转成 180deg —— 它立刻不再指任何方向 */
+      .wrong-aim .sekai-cap::before {
+        background: linear-gradient(
+          180deg,
+          rgb(var(--sekai-accent)),
+          rgb(var(--sekai-accent-deep))
+        );
+      }
+
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: var(--sekai-space-md);
+        margin: var(--sekai-space-2xl) 0;
+      }
+      .swatches div {
+        border: var(--sekai-hairline);
+        border-radius: var(--sekai-radius-panel);
+        overflow: hidden;
+      }
+      .swatches i {
+        display: block;
+        height: 52px;
+      }
+      .swatches span {
+        display: block;
+        padding: var(--sekai-space-sm) var(--sekai-space-md);
+        font-family: var(--sekai-font-mono);
+        font-size: var(--sekai-text-micro);
+        color: rgb(var(--sekai-fg-muted));
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: var(--sekai-space-xl);
+        margin: var(--sekai-space-2xl) 0;
+      }
+
+      .worlds {
+        position: fixed;
+        right: var(--sekai-space-lg);
+        bottom: var(--sekai-space-lg);
+        z-index: 500;
+        display: flex;
+        gap: var(--sekai-space-sm);
+        padding: var(--sekai-space-sm);
+        border-radius: var(--sekai-radius-lg);
+        background: rgb(var(--sekai-surface-raised) / 0.85);
+        border: 1px solid rgb(255 255 255 / 0.15);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 10px 40px rgb(0 0 0 / 0.5);
+      }
+
+      .end {
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: var(--sekai-space-lg);
+      }
+      .end h2 {
+        font-size: clamp(26px, 4.5vw, 40px);
+        margin: 0;
+      }
+      .end p {
+        max-width: 40ch;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ══════════════════ 封面 ══════════════════ -->
+    <section class="cover page">
+      <div class="sekai-audio-player playing" id="cover-device"></div>
+      <h1>这不是一张卡片。</h1>
+      <p class="lead">
+        这是一台机器。<br />
+        在你读到任何一条规则之前，先<strong>把它拆开</strong>。
+      </p>
+      <span class="sekai-sig">↓ 往下</span>
+    </section>
+
+    <!-- ══════════════════ 一 ══════════════════ -->
+    <section class="chapter">
+      <div class="page wide">
+        <span class="sekai-sig num">第一章</span>
+        <h2>先认清它是什么</h2>
+        <p>
+          把鼠标放到右边任意一行上。左边那个部件会亮起来。
+        </p>
+
+        <div class="stage stage--split">
+          <div>
+            <div class="sekai-audio-player playing" id="anno-device"></div>
+            <div class="caption">部件，不是样式</div>
+          </div>
+          <ul class="parts">
+            <li data-part=".sekai-fader-scale">
+              <b>推杆有刻度</b>因为推杆有刻度。
+            </li>
+            <li data-part=".sekai-fader-cap">
+              <b>杆帽上有一道压痕</b>因为你要用拇指推它。
+            </li>
+            <li data-part=".sekai-walkman-transport">
+              <b>四个键</b>播放、停止、后退、快进。deck 就是四个键 ——
+              少两个不是「精简」，是缺件。
+            </li>
+            <li data-part=".sekai-tape-mechanism">
+              <b>两个转盘在转</b>因为磁带在走。它压到 20% 不透明度，
+              是机芯，不是插图。
+            </li>
+            <li data-part=".sekai-led">
+              <b>灯亮着</b>而且它自己发光 —— 熄灭时它沉在孔里。
+            </li>
+            <li data-part=".sekai-scrub-progress">
+              <b>播放头是个三角</b>它指着「现在」。
+            </li>
+          </ul>
+        </div>
+
+        <p>
+          这六条里，没有一条是「设计决定」。它们是<strong>承认</strong>。
+        </p>
+        <div class="lands">
+          设计动作只发生过一次：决定这是一台机器。<br />
+          在那之后就没有选择了，只有忠实。
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 二 ══════════════════ -->
+    <section class="chapter">
+      <div class="page">
+        <span class="sekai-sig num">第二章</span>
+        <h2>可是「一次授权」不是机器</h2>
+        <p>
+          上一章太容易了。deck 是 deck，没得选。<br />
+          但界面里绝大部分东西<strong>没有实物</strong> ——
+          一次 OAuth 授权是什么形状？一组权限是什么形状？
+        </p>
+
+        <div class="stage" style="flex-direction: column; gap: var(--sekai-space-2xl)">
+          <div style="width: min(100%, 380px)">
+            <div class="sekai-connection">
+              <div class="sekai-entity">
+                <div class="sekai-entity__avatar">
+                  <span class="sekai-avatar sekai-avatar--lg sekai-avatar--entity is-user">你</span>
+                </div>
+                <span class="sekai-entity__label">You</span>
+              </div>
+              <div class="sekai-flow"></div>
+              <span class="sekai-connection__badge">⇄</span>
+              <div class="sekai-entity">
+                <div class="sekai-entity__avatar">
+                  <span class="sekai-avatar sekai-avatar--lg sekai-avatar--entity is-app">N</span>
+                </div>
+                <span class="sekai-entity__label">Nightcord</span>
+              </div>
+            </div>
+            <div class="caption">两个端子，一根通着电的线</div>
+          </div>
+
+          <div style="width: min(100%, 380px)">
+            <div class="sekai-well">
+              <div class="sekai-well__row">
+                <span class="sekai-scope__icon">◉</span>
+                <span class="sekai-scope__content">
+                  <span class="sekai-scope__name">
+                    profile <span class="sekai-badge">READ</span>
+                  </span>
+                </span>
+              </div>
+              <div class="sekai-well__row">
+                <span class="sekai-scope__icon">✉</span>
+                <span class="sekai-scope__content">
+                  <span class="sekai-scope__name">
+                    email <span class="sekai-badge">READ</span>
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="caption">面板上凿出来的托盘</div>
+          </div>
+        </div>
+
+        <p>
+          授权被当成<strong>两个端子加一根通电的线</strong>；
+          权限被当成<strong>凿进面板的托盘</strong>；
+          黑幕被当成<strong>贴在字上的胶带</strong>；
+          引用被当成<strong>手册页边的变更条</strong>。
+        </p>
+        <p>
+          所以真正的方法不是「承认它是什么」—— 抽象的东西没有可承认的本性。
+          是这个：
+        </p>
+
+        <div class="lands">
+          找一个物理对象，<br />
+          它<strong>能做的事</strong>和这个抽象物<strong>能做的事</strong>一一对应；<br />
+          然后忠实于那个物理对象。
+        </div>
+
+        <p>
+          决定<strong>只做一次</strong>，就是选这个对应。选完之后形态、光照、状态、
+          交互全都被那个实物决定了，一个都不用再想。
+          walkman 之所以让人觉得压根没做过决定，不是因为没决定 ——
+          是「放音频 ↔ 磁带走带机构」这个对应太完美，
+          <strong>决定本身变得看不见了</strong>。
+        </p>
+
+        <p>
+          对应好不好，可以判：<br />
+          实物给了抽象物<strong>没有</strong>的操作 → 媚俗（皮革缝线的日历）。<br />
+          抽象物有操作而实物<strong>给不了</strong> → 牢笼（你被自己的比喻卡住）。
+        </p>
+        <p>
+          transport 只给两个键，就是后一种：脑子里的「它」是「一个播放器控件」
+          （两个操作），而不是「音频」（播放、停止、退、进、音量、定位）。
+          <strong>隐喻没错，是对事物的模型太穷。</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 三 ══════════════════ -->
+    <section class="chapter">
+      <div class="page">
+        <span class="sekai-sig num">第三章</span>
+        <h2>东西是真的，所以有光</h2>
+        <p>按住左边这个键，别松手。看它的<strong>上边缘</strong>。</p>
+
+        <div class="stage" id="light-stage">
+          <div>
+            <button class="demo-key" aria-label="按住">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            </button>
+            <div class="caption">按住它</div>
+          </div>
+          <div>
+            <button class="demo-key is-pressed" aria-label="按下的样子">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            </button>
+            <div class="caption">按下时</div>
+          </div>
+        </div>
+
+        <p>
+          抬起时上边缘有一道亮线（<code class="sekai-code-inline"
+            >inset 0 1px 0 rgb(255 255 255 / .08)</code
+          >）。按下去，那道亮线<strong>翻转成了阴影</strong>。
+          这不是两个状态的两套样式 —— 是同一个面从凸变凹。
+        </p>
+
+        <button class="flip" data-flip="#light-stage" aria-pressed="false">
+          看没有光的版本
+        </button>
+
+        <p>
+          关掉之后它还是能按，还是会变色。只是它不再是个键了 ——
+          它是一个会变色的圆角矩形。
+        </p>
+
+        <div class="lands">
+          整个 SEKAI 只有一个光源，在左上偏上。<br />
+          凸起的顶边受光，凹陷的顶边背光，抬起的东西向右下投影 ——
+          <strong>包括投到旁边的元素身上</strong>。
+        </div>
+
+        <p>
+          最后半句不是修辞。简单播放器的播放键，把影子投在了它右边的屏幕区上：
+          <code class="sekai-code-inline">inset 4px 0 8px -4px rgb(0 0 0 / .1)</code>。
+          自称「扁平 + 阴影」的系统不会写这一行。写了，就说明作者脑子里是
+          <strong>一个统一打光的场景</strong>，不是一张阴影表。
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 三 ══════════════════ -->
+    <section class="chapter">
+      <div class="page">
+        <span class="sekai-sig num">第四章</span>
+        <h2>所以阴影不能乱给</h2>
+        <p>两张一模一样的卡片。哪一张在撒谎？</p>
+
+        <div class="stage grid-3" id="plane-stage">
+          <div>
+            <div class="sekai-card">
+              <strong>OAuth 应用</strong>
+              <p class="sekai-card__desc">nightcord · 三个 scope</p>
+            </div>
+            <div class="caption">A</div>
+          </div>
+          <div class="wrong-lift">
+            <div class="sekai-card">
+              <strong>OAuth 应用</strong>
+              <p class="sekai-card__desc">nightcord · 三个 scope</p>
+            </div>
+            <div class="caption">B</div>
+          </div>
+        </div>
+
+        <p>
+          B 看起来更「精致」，对吧。但它在<strong>宣称一个它没有的高度</strong> ——
+          它就躺在页面上，和周围是同一个平面。
+          那圈发丝线已经把话说完了：这里是它的边，仅此而已。
+        </p>
+
+        <div class="lands">
+          1px 发丝线 = 物体的边。<strong>它一直都在。</strong><br />
+          阴影 = 这个物体离开了它所在的平面。<br />
+          所以共面的东西只有边；抬起来的东西
+          <strong>边和影都有</strong> —— 抬起来了也还是有边的。
+        </div>
+
+        <p>
+          再往下想一层：<strong>一个面没有绝对高度。</strong> 你说不出某个位置的势能是多少，
+          只能说出两点之间差多少。所以「抬起」从来不是颜色的属性，
+          是它和<strong>底下那层</strong>的差。
+        </p>
+        <p>
+          于是有件事就顺过来了 ——
+          <strong>模态背后那层遮罩不是为了压暗气氛，它是在重设零点。</strong>
+          它把画布压到近黑，模态<strong>不用改自己的颜色</strong>就成了抬起的。
+          撤掉遮罩，同一个值立刻变回一口井。它是承重结构。
+        </p>
+
+        <p>
+          源文件里零例外：<code class="sekai-code-inline">.app-card</code>、
+          <code class="sekai-code-inline">.sekai-file-card</code>、
+          <code class="sekai-code-inline">.permission-box</code> 全都只有发丝线；
+          只有真的离开了平面的东西才投影 —— 模态浮在遮罩上、吐司浮在一切之上、
+          主面板装在仪器面上。
+        </p>
+        <p>
+          而它们的影子还各不相同，因为<strong>影子是尺寸的函数</strong>：
+          32px 的回复键几乎没有面积可投影，要 <code class="sekai-code-inline">.3</code>
+          才看得出离地；一整块面板要的是又宽又软的那种。重要性一样、尺寸不同的两个东西，
+          影子必须不同。
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 四 ══════════════════ -->
+    <section class="chapter">
+      <div class="page">
+        <span class="sekai-sig num">第五章</span>
+        <h2>颜色不是用来好看的</h2>
+        <p>下面这块面板顶上有一条 3px 的主色。它在干什么？</p>
+
+        <div class="stage" id="aim-stage">
+          <div style="width: min(100%, 340px)">
+            <div class="sekai-card sekai-cap">
+              <strong>SEKAI Pass</strong>
+              <p class="sekai-card__desc">
+                它在说：这一块是主体。看这里。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <button class="flip" data-flip="#aim-stage" data-cls="wrong-aim" aria-pressed="false">
+          把它的角度从 90° 转成 180°
+        </button>
+
+        <p>
+          转完之后它还在，还是紫的，还是 3px。但它不再<strong>指向</strong>任何地方了 ——
+          它变成了装饰。
+        </p>
+
+        <div class="lands">
+          <strong>90deg（沿阅读轴）= 引导</strong> ——
+          顶栏、扫光、连接线上跑的数据包、进度条的生长方向。<br />
+          <strong>其它角度 = 拟物</strong> —— 描述一个面朝哪、哪边受光。<br />
+          源文件里零例外。
+        </div>
+
+        <p>
+          所以主色从不做大面积填充。它做 3px 顶栏（「这块是主体」）、
+          做 4px 左脊（「这段来自别处，从这里读」）、做播放头三角（指着「现在」）、
+          做 <code class="sekai-code-inline">›</code>（指向外部）。
+          <strong>每一处主色都在回答「往哪看」。</strong>
+        </p>
+
+        <div class="stage">
+          <a class="sekai-link-card" href="#" style="pointer-events: none">
+            <span class="sekai-link-accent"></span>
+            <span class="sekai-link-content">
+              <span class="sekai-link-site">DOCS.NIGHTCORD.DE5.NET</span>
+              <span class="sekai-link-title">左边那条 4px，就是「从这里开始读」</span>
+              <span class="sekai-link-desc">它不是边框。边框会围一圈。</span>
+            </span>
+            <span class="sekai-link-arrow">›</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 五 ══════════════════ -->
+    <section class="chapter">
+      <div class="page">
+        <span class="sekai-sig num">第六章</span>
+        <h2>有两种字，因为有两种东西</h2>
+        <p>下面这个字段。点一下开关，看那个<strong>值</strong>发生了什么。</p>
+
+        <div class="stage">
+          <div style="width: min(100%, 340px)">
+            <div class="sekai-field" style="margin: 0">
+              <label class="sekai-field__label" for="sig-input">Client ID</label>
+              <input
+                class="sekai-input"
+                id="sig-input"
+                value="nightcord_web"
+              />
+            </div>
+            <button class="flip" id="lock-toggle" aria-pressed="false">
+              锁定这个值
+            </button>
+          </div>
+        </div>
+
+        <p>
+          锁定之后，值自己换成了等宽字。不是「禁用态的样式」——
+          是这个值<strong>换了身份</strong>：它不再是你能写进去的内容，
+          它变成了印在上面的铭牌。
+        </p>
+
+        <div class="lands">
+          等宽 = 印在机壳上的丝印字，厂家印的，你改不了。<br />
+          无衬线 = 设备屏幕里显示的内容，会变。
+        </div>
+
+        <p>
+          <code class="sekai-code-inline">SEKAI PASS // SYSTEM</code>、
+          <code class="sekai-code-inline">EDITABLE DATA</code>、
+          <code class="sekai-code-inline">STEREO</code>、字节数、时间码、
+          scope 上的 <code class="sekai-code-inline">READ</code> ——
+          全是印上去的。昵称、消息正文、应用名 —— 全是显示出来的。
+          分界从来没模糊过。
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 六 ══════════════════ -->
+    <section class="chapter">
+      <div class="page wide">
+        <span class="sekai-sig num">第七章</span>
+        <h2>于是就有了这些</h2>
+        <p>
+          下面每一个都不是「设计出来的组件」，是前五章的<strong>后果</strong>。
+        </p>
+
+        <div class="grid-3">
+          <div>
+            <div class="sekai-btn-row">
+              <button class="sekai-btn sekai-btn--primary">授权</button>
+              <button class="sekai-btn sekai-btn--secondary">拒绝</button>
+            </div>
+            <div class="caption">按下时落回原位 · 第三章</div>
+          </div>
+          <div>
+            <div class="sekai-alert sekai-alert--error" style="margin: 0">
+              AUTH_INVALID_GRANT — code expired
+            </div>
+            <div class="caption">左脊指向 · 第五章 · 丝印 · 第六章</div>
+          </div>
+          <div>
+            <div class="sekai-well">
+              <div class="sekai-well__row">
+                <span class="sekai-scope__icon">◉</span>
+                <span class="sekai-scope__content">
+                  <span class="sekai-scope__name">
+                    profile <span class="sekai-badge">READ</span>
+                  </span>
+                  <span class="sekai-scope__desc">读取昵称与头像</span>
+                </span>
+              </div>
+            </div>
+            <div class="caption">凿进面板的托盘 · 第四章</div>
+          </div>
+        </div>
+
+        <div class="stage" style="margin-bottom: var(--sekai-space-lg)">
+          <div>
+            <div class="sekai-audio-player-simple" id="voice-player"></div>
+            <div class="caption">语音 → 时域波形，不是频谱柱</div>
+          </div>
+        </div>
+        <p>
+          上面这台和封面那台是<strong>两种东西</strong>。封面那台放音乐，
+          所以它给你 32 段频谱 —— 你想看的是各频段怎么配比。
+          这台是一条语音，语音<strong>没有值得看的频谱，它有的是包络</strong>，
+          所以这里是示波器。互换一下，两台都会开始对自己的用途撒谎。
+        </p>
+
+        <div class="stage">
+          <div style="width: min(100%, 420px)">
+            <div class="sekai-message" style="border-radius: 8px">
+              <span class="sekai-avatar sekai-avatar--t2">H</span>
+              <div class="sekai-message__body">
+                <div class="sekai-message__header">
+                  <span class="sekai-message__author">houtar</span>
+                  <span class="sekai-message__time">02:47</span>
+                </div>
+                <div class="sekai-message__text">
+                  把鼠标移上来 —— 回复键会升起来，然后落回去
+                </div>
+              </div>
+              <div class="sekai-message__action">↩</div>
+            </div>
+            <div class="caption">32px 的芯片，需要更深的影子才离得开地</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 七 ══════════════════ -->
+    <section class="chapter">
+      <div class="page">
+        <span class="sekai-sig num">第八章</span>
+        <h2>同一个场景，两种环境光</h2>
+        <p>
+          按右下角切换。注意：<strong>token 的名字一个都没变。</strong>
+        </p>
+
+        <div class="swatches">
+          <div><i style="background: rgb(var(--sekai-canvas))"></i><span>canvas</span></div>
+          <div><i style="background: rgb(var(--sekai-surface))"></i><span>surface</span></div>
+          <div><i style="background: rgb(var(--sekai-surface-card))"></i><span>surface-card</span></div>
+          <div><i style="background: rgb(var(--sekai-accent))"></i><span>accent</span></div>
+          <div><i style="background: rgb(var(--sekai-accent-deep))"></i><span>accent-deep</span></div>
+          <div><i style="background: rgb(var(--sekai-signal))"></i><span>signal</span></div>
+        </div>
+
+        <p>
+          <strong>world-night</strong> 是 nightcord：紫罗兰的桌面，
+          侧栏是挖出来的槽，聊天卡躺在桌上。<br />
+          <strong>world-system</strong> 是 SEKAI Pass：暗室里的一块仪器面，
+          面板装上去受光，输入框是面板上凿的井。
+        </p>
+        <p>
+          两个世界遵守<strong>同一条</strong>规则 ——
+          相对它所在的那一层，抬起就更亮，凹陷就更暗。
+          它们不是两套配色，是<strong>两个零点</strong>。
+        </p>
+
+        <p>
+          唯一不跟着变的是封面那台机器。它不吃任何一个世界的画布和主色，
+          因为它<strong>不是这个界面的一个面，它是有人把一台硬件放了进来</strong>。
+          反差就是它的设计。
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════════ 结 ══════════════════ -->
+    <section class="chapter end page">
+      <span class="sekai-sig">结</span>
+      <h2>本就应该如此</h2>
+      <p class="lead">
+        如果你读到这里没觉得学到了什么规则，<br />
+        那就对了。
+      </p>
+      <p>
+        这里没有一条是「为了好看而定的」。每一条都只是：
+        找到它对应的那个实物，然后不撒谎。
+      </p>
+      <p>
+        所以真正会失手的地方，是<strong>你以为某个东西没有对应实物</strong>的时候
+        —— 那一刻你会开始发明，而发明出来的东西一定像别人的。
+        这套设计里唯一直接搬了外部调色板的地方，就是身份色；
+        因为「一个人的颜色」看起来纯粹是约定。
+      </p>
+      <p>
+        它不是。一个人的颜色是<strong>彩色标签牌</strong> ——
+        鲜亮的底、同色相的深字，因为那样才能隔着距离一眼认出来，
+        而「一眼认出来」正是它唯一的功能。
+      </p>
+      <div class="lands" style="max-width: 34ch; text-align: left">
+        「没有对应实物」从来不是事实，<br />
+        只是<strong>还没找到</strong>。<br /><br />
+        找不到的时候，正确的动作是继续找，<br />
+        不是开始发明。
+      </div>
+      <p class="sekai-sig" style="opacity: 0.5">
+        SEKAI DESIGN SYSTEM // 完整规范见 DESIGN_SYSTEM.md
+      </p>
+    </section>
+
+    <div class="worlds">
+      <button class="sekai-btn sekai-btn--sm sekai-btn--secondary" data-world="system">
+        system
+      </button>
+      <button class="sekai-btn sekai-btn--sm sekai-btn--primary" data-world="night">
+        night
+      </button>
+    </div>
+
+    <script>
+      /* ── 装置：两处都用同一段标记，因为它就是同一台机器 ─────── */
+      const deviceHTML = (playing) => `
+        <div class="sekai-console-module">
+          <div class="sekai-fader-scale">
+            ${'<span class="sekai-fader-tick major"></span><span class="sekai-fader-tick"></span>'.repeat(2)}
+            <span class="sekai-fader-tick major"></span>
+          </div>
+          <div class="sekai-fader-track"><div class="sekai-fader-cap" style="top:30%"></div></div>
+        </div>
+        <div class="sekai-audio-content">
+          <div class="sekai-screen-meta">
+            <div class="sekai-status-indicator">
+              <span class="sekai-led ${playing ? 'active' : ''}"></span>
+              <span class="sekai-status-text">${playing ? 'PLAY' : 'STOP'}</span>
+            </div>
+            <div class="sekai-track-info">
+              <span class="sekai-track-title">25時、ナイトコードで。</span>
+              <span class="sekai-track-artist">25-ji, Nightcord de.</span>
+            </div>
+          </div>
+          <div class="sekai-viz-area">
+            <div class="sekai-tape-mechanism">
+              <span class="sekai-reel"></span><span class="sekai-reel"></span>
+            </div>
+            <div class="sekai-audio-visualizer-bars sekai-viz--auto"></div>
+          </div>
+          <div class="sekai-tape-scrubber">
+            <div class="sekai-scrub-buffered" style="width:74%"></div>
+            <div class="sekai-scrub-progress" style="width:41%"></div>
+            <span class="sekai-scrub-time">1:47 / 4:18</span>
+          </div>
+        </div>
+        <div class="sekai-walkman-transport">
+          <button class="sekai-transport-btn active" aria-label="Play">
+            <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+          <button class="sekai-transport-btn" aria-label="Stop">
+            <svg viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg></button>
+          <button class="sekai-transport-btn" aria-label="Rewind 5s">
+            <svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
+          <button class="sekai-transport-btn" aria-label="Fast forward 10s">
+            <svg viewBox="0 0 24 24"><path d="M13 6v12l8.5-6L13 6zM4 18l8.5-6L4 6v12z"/></svg></button>
+        </div>`;
+
+      // 32 根柱子 —— fftSize 64 → 32 个频段，一根对一段。数量是语义。
+      const fillBars = (host) => {
+        for (let i = 0; i < 32; i++) {
+          const b = document.createElement("span");
+          b.className = "sekai-viz-bar";
+          b.style.setProperty("--i", String(i));
+          host.appendChild(b);
+        }
+      };
+
+      for (const id of ["cover-device", "anno-device"]) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        el.innerHTML = deviceHTML(true);
+        fillBars(el.querySelector(".sekai-audio-visualizer-bars"));
+      }
+
+      /* ── 第一章：注解联动 ────────────────────────────────── */
+      const annoDevice = document.getElementById("anno-device");
+      document.querySelectorAll(".parts li").forEach((li) => {
+        const lit = () =>
+          annoDevice
+            .querySelectorAll(li.dataset.part)
+            .forEach((n) => n.classList.add("is-lit"));
+        const dim = () =>
+          annoDevice
+            .querySelectorAll(".is-lit")
+            .forEach((n) => n.classList.remove("is-lit"));
+        li.addEventListener("mouseenter", lit);
+        li.addEventListener("focus", lit);
+        li.addEventListener("mouseleave", dim);
+        li.addEventListener("blur", dim);
+      });
+
+      /* ── 「看错的版本」开关 ──────────────────────────────── */
+      document.querySelectorAll(".flip[data-flip]").forEach((btn) => {
+        const target = document.querySelector(btn.dataset.flip);
+        const cls = btn.dataset.cls || "wrong";
+        const on = btn.textContent.trim();
+        btn.addEventListener("click", () => {
+          const next = !target.classList.contains(cls);
+          target.classList.toggle(cls, next);
+          btn.setAttribute("aria-pressed", String(next));
+          btn.textContent = next ? "改回来" : on;
+        });
+      });
+
+      /* ── 第六章：锁定 = 值从"内容"变成"铭牌" ─────────────── */
+      const lock = document.getElementById("lock-toggle");
+      const sigInput = document.getElementById("sig-input");
+      lock?.addEventListener("click", () => {
+        const next = !sigInput.disabled;
+        sigInput.disabled = next;
+        lock.setAttribute("aria-pressed", String(next));
+        lock.textContent = next ? "解锁" : "锁定这个值";
+      });
+
+      /* ── 第七章：语音条 = 时域示波器 ─────────────────────── */
+      const voice = document.getElementById("voice-player");
+      if (voice) {
+        voice.innerHTML = `
+          <button class="sekai-audio-control" aria-label="Play">
+            <span class="sekai-audio-icon-span">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+            <span class="sekai-audio-indicator"></span>
+          </button>
+          <div class="sekai-audio-content-simple">
+            <div class="sekai-audio-info-row">
+              <canvas class="sekai-audio-oscilloscope"></canvas>
+              <span class="sekai-audio-time">0:23 / 1:04</span>
+            </div>
+            <div class="sekai-audio-progress-container">
+              <div class="sekai-audio-progress-bar">
+                <div class="sekai-audio-progress-fill" style="width:36%"></div>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      // 静态波形：真组件用 AnalyserNode 逐帧画，这里画一条确定的语音包络。
+      const paintScope = () => {
+        document.querySelectorAll(".sekai-audio-oscilloscope").forEach((c) => {
+          const W = 200, H = 20, dpr = window.devicePixelRatio || 1;
+          c.style.width = W + "px";
+          c.style.height = H + "px";
+          c.width = W * dpr;
+          c.height = H * dpr;
+          const g = c.getContext("2d");
+          g.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+          const css = getComputedStyle(c);
+          const tok = (n, f) => css.getPropertyValue(n).trim() || f;
+          g.fillStyle = `rgb(${tok("--sekai-surface-card", "47 39 63")})`;
+          g.fillRect(0, 0, W, H);
+
+          const line = `rgb(${tok("--sekai-accent", "167 139 250")})`;
+          const grad = g.createLinearGradient(0, 0, W, 0);
+          grad.addColorStop(0, "transparent");
+          grad.addColorStop(0.1, line);
+          grad.addColorStop(0.9, line);
+          grad.addColorStop(1, "transparent");
+
+          g.lineWidth = 1.5;
+          g.strokeStyle = grad;
+          g.beginPath();
+          for (let x = 0; x <= W; x++) {
+            const t = x / W;
+            const env = Math.pow(Math.sin(Math.PI * t), 0.6); // 说话的包络
+            const v =
+              Math.sin(t * 41) * 0.55 +
+              Math.sin(t * 97 + 1.3) * 0.3 +
+              Math.sin(t * 173 + 2.1) * 0.15;
+            const y = H / 2 + v * env * (H / 2) * 0.85;
+            x === 0 ? g.moveTo(x, y) : g.lineTo(x, y);
+          }
+          g.stroke();
+        });
+      };
+      paintScope();
+
+      /* ── 换环境光 ────────────────────────────────────────── */
+      document.querySelectorAll("[data-world]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.documentElement.className = "world-" + btn.dataset.world;
+          document.querySelectorAll("[data-world]").forEach((b) => {
+            b.className =
+              "sekai-btn sekai-btn--sm " +
+              (b === btn ? "sekai-btn--primary" : "sekai-btn--secondary");
+          });
+          paintScope(); // 画布是 JS 画的，换了光要重画
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* SPDX-FileCopyrightText: 2026 The 25-ji-code-de Team */
+
+/* ============================================================
+   SEKAI Design System — everything
+   ------------------------------------------------------------
+   Import order matters: tokens, then base, then signatures (which
+   components compose), then components.
+
+   Narrower entry points:
+     ../tokens/index.css   variables only
+     ./base.css            reset + document defaults
+     ./signatures.css      the ten devices
+   ============================================================ */
+
+@import "../tokens/index.css";
+
+@import "./base.css";
+@import "./signatures.css";
+
+@import "./components/button.css";
+@import "./components/field.css";
+@import "./components/card.css";
+@import "./components/badge.css";
+@import "./components/alert.css";
+@import "./components/avatar.css";
+@import "./components/feedback.css";
+@import "./components/modal.css";
+
+@import "./sekai/text.css";
+@import "./sekai/cards.css";
+@import "./sekai/media.css";
+@import "./sekai/audio-device.css";
+@import "./sekai/audio-simple.css";
+
+@import "./layout/shell.css";
+@import "./layout/chat.css";
+@import "./layout/auth.css";
+@import "./layout/page.css";
