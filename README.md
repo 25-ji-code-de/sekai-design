@@ -17,11 +17,24 @@ CSS 是样式的唯一来源。React 组件只负责生成相同的类名。
 npm i @sekai/design
 ```
 
-生态内的仓库也可以直接引用构建产物：
+本地联调时也可以直接引用相邻检出的构建产物：
 
 ```html
 <link rel="stylesheet" href="../sekai-design/dist/sekai-design.css" />
 ```
+
+生产项目必须依赖不可变版本，不应依赖相邻目录布局或 `master`：
+
+```json
+{
+  "dependencies": {
+    "@sekai/design": "github:25-ji-code-de/sekai-design#v0.1.0"
+  }
+}
+```
+
+GitHub tag 安装会通过 `prepare` 生成 `dist/`。无构建步骤的静态项目应从同一
+tag vendor `tokens/*.css`，并保留 `@sekai-vendor` 来源标记。
 
 ## 在原生 HTML 中使用
 

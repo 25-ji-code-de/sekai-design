@@ -31,6 +31,7 @@
     "DESIGN_SYSTEM.md"
   ],
   "scripts": {
+    "prepare": "npm run build",
     "build": "node build.mjs && tsc -p tsconfig.build.json",
     "build:js": "node build.mjs",
     "build:types": "tsc -p tsconfig.build.json",
