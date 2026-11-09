@@ -1,6 +1,6 @@
 {
   "name": "@sekai/design",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SEKAI Design System — the shared visual language behind nightcord and SEKAI Pass. CSS tokens and components first, React wrappers on top.",
   "license": "Apache-2.0",
   "author": "The 25-ji-code-de Team",

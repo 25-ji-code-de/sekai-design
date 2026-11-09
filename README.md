@@ -28,7 +28,7 @@ npm i @sekai/design
 ```json
 {
   "dependencies": {
-    "@sekai/design": "github:25-ji-code-de/sekai-design#v0.1.0"
+    "@sekai/design": "github:25-ji-code-de/sekai-design#v0.1.1"
   }
 }
 ```
